@@ -12,6 +12,7 @@ export enum CarTransmission {
 export enum CarDrive {
   FRONT_WHEEL = 'Передний',
   REAR_WHEEL = 'Задний',
+  ALL_WHEEL = 'Полный',
 }
 
 export enum CarFuel {
