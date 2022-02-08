@@ -29,7 +29,7 @@ export class Specifications {
   @Column()
   tax: number;
 
-  @ApiProperty({ example: 'Седан', name: 'Кузов' })
+  @ApiProperty({ example: 'Автоматическая', name: 'Коробка передач' })
   @Column({ type: 'enum', enum: CarTransmission })
   transmission: CarTransmission;
 
