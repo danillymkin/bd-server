@@ -1,20 +1,20 @@
 export enum CarBody {
-  SEDAN = 'SEDAN',
-  HATCHBACK = 'HATCHBACK',
-  SUV = 'SUV',
+  SEDAN = 'Седан',
+  HATCHBACK = 'Хэтчбек',
+  SUV = 'Внедорожник',
 }
 
 export enum CarTransmission {
-  AUTOMATIC = 'AUTOMATIC',
-  MANUAL = 'MANUAL',
+  AUTOMATIC = 'Автоматическая',
+  MANUAL = 'Механическая',
 }
 
 export enum CarDrive {
-  FRONT_WHEEL = 'FRONT_WHEEL',
-  REAR_WHEEL = 'REAR_WHEEL',
+  FRONT_WHEEL = 'Передний',
+  REAR_WHEEL = 'Задний',
 }
 
 export enum CarFuel {
-  GASOLINE = 'GASOLINE',
-  DIESEL = 'DIESEL',
+  GASOLINE = 'Бензин',
+  DIESEL = 'Дизель',
 }
