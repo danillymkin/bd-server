@@ -16,7 +16,7 @@ import { UpdateColorDto } from './dto/update-color.dto';
 import { ColorsService } from './colors.service';
 import { FindOneParamsDto } from '../utils/dto/find-one-params.dto';
 
-@ApiTags('Товары')
+@ApiTags('Цвета')
 @Controller('colors')
 export class ColorsController {
   constructor(private colorsService: ColorsService) {}
