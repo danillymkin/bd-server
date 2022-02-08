@@ -8,7 +8,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder()
     .setTitle('Диллер по продаже автомобилей')
-    .setDescription('Документация Rest API"')
+    .setDescription('Документация Rest API')
     .setVersion('1.0.0')
     .build();
 
