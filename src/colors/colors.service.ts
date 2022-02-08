@@ -15,8 +15,8 @@ export class ColorsService {
     return await this.colorsRepository.find();
   }
 
-  async getById(id: string): Promise<Color> {
-    return await this.colorsRepository.findOneOrFail(+id);
+  async getById(id: number): Promise<Color> {
+    return await this.colorsRepository.findOne(id);
   }
 
   async create(createColorDto: CreateColorDto): Promise<Color> {
@@ -24,12 +24,12 @@ export class ColorsService {
     return await this.colorsRepository.save(color);
   }
 
-  async update(id: string, updateColorDto: UpdateColorDto): Promise<Color> {
-    await this.colorsRepository.update({ id: +id }, updateColorDto);
-    return await this.colorsRepository.findOneOrFail(+id);
+  async update(id: number, updateColorDto: UpdateColorDto): Promise<Color> {
+    await this.colorsRepository.update({ id }, updateColorDto);
+    return await this.colorsRepository.findOne(id);
   }
 
-  async remove(id: string): Promise<DeleteResult> {
-    return await this.colorsRepository.delete({ id: +id });
+  async remove(id: number): Promise<DeleteResult> {
+    return await this.colorsRepository.delete({ id });
   }
 }

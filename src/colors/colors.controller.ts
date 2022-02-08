@@ -14,6 +14,7 @@ import { DeleteResult } from 'typeorm';
 import { CreateColorDto } from './dto/create-color.dto';
 import { UpdateColorDto } from './dto/update-color.dto';
 import { ColorsService } from './colors.service';
+import { FindOneParamsDto } from '../utils/dto/find-one-params.dto';
 
 @ApiTags('Товары')
 @Controller('colors')
@@ -30,7 +31,7 @@ export class ColorsController {
   @ApiOperation({ summary: 'Получить цвет по id' })
   @ApiResponse({ status: HttpStatus.OK, type: Color })
   @Get(':id')
-  getById(@Param('id') id: string): Promise<Color> {
+  getById(@Param() { id }: FindOneParamsDto): Promise<Color> {
     return this.colorsService.getById(id);
   }
 
@@ -45,7 +46,7 @@ export class ColorsController {
   @ApiResponse({ status: HttpStatus.OK, type: Color })
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param() { id }: FindOneParamsDto,
     @Body() updateColorDto: UpdateColorDto,
   ): Promise<Color> {
     return this.colorsService.update(id, updateColorDto);
@@ -54,7 +55,7 @@ export class ColorsController {
   @ApiOperation({ summary: 'Удалить цвет' })
   @ApiResponse({ status: HttpStatus.OK, type: DeleteResult })
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<DeleteResult> {
+  remove(@Param() { id }: FindOneParamsDto): Promise<DeleteResult> {
     return this.colorsService.remove(id);
   }
 }
