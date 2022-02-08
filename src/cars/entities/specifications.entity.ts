@@ -14,7 +14,7 @@ export class Specifications {
   releaseYear: number;
 
   @ApiProperty({ example: '32 000', name: 'Пробег' })
-  @Column()
+  @Column({ default: 0 })
   mileage: number;
 
   @ApiProperty({ enum: CarBody, example: 'Седан', name: 'Кузов' })
