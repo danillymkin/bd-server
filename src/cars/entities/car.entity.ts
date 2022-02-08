@@ -23,7 +23,7 @@ export class Car {
   price: number;
 
   @ApiProperty({ name: 'Описание' })
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @ApiProperty({ type: () => Specifications, name: 'Характеристики' })
