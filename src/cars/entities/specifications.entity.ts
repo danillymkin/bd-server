@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CarBody, CarDrive, CarFuel, CarTransmission } from '../utils/enums';
+import { Color } from '../../colors/entities/color.entity';
 
 @Entity({ name: 'specifications' })
 export class Specifications {
@@ -14,6 +15,9 @@ export class Specifications {
 
   @Column({ type: 'enum', enum: CarBody })
   body: CarBody;
+
+  @ManyToOne(() => Color, (color: Color) => color.specifications)
+  color: Color;
 
   @Column()
   tax: number;
