@@ -10,6 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
+import { IsManufacturerExist } from '../../validation/is-manufacturer-exist.decorator';
 
 export class CreateCarDto {
   @ApiProperty({ example: 'BMW X5', description: 'Название' })
@@ -18,6 +19,7 @@ export class CreateCarDto {
 
   @ApiProperty({ example: '1', description: 'Id производителя' })
   @IsNumber({}, { message: 'Должно быть числом' })
+  @IsManufacturerExist({ message: 'Такого производителя не существует' })
   readonly manufacturerId: number;
 
   @ApiProperty({ example: '6 700 000', description: 'Стоимость' })
