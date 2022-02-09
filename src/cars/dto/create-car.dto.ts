@@ -12,11 +12,11 @@ import {
 import { Type } from 'class-transformer';
 
 export class CreateCarDto {
-  @ApiProperty({ example: 'BMW X5', name: 'Название' })
+  @ApiProperty({ example: 'BMW X5', description: 'Название' })
   @IsString({ message: 'Должно быть строкой' })
   readonly name: string;
 
-  @ApiProperty({ example: '6 700 000', name: 'Стоимость' })
+  @ApiProperty({ example: '6 700 000', description: 'Стоимость' })
   @IsNumber({}, { message: 'Должна быть числом' })
   @Min(0, { message: 'Должна быть больше нуля' })
   readonly price: number;
@@ -26,7 +26,10 @@ export class CreateCarDto {
   @IsString({ message: 'Должно быть строкой' })
   readonly description?: string;
 
-  @ApiProperty({ type: () => CreateSpecificationsDto, name: 'Характеристики' })
+  @ApiProperty({
+    type: () => CreateSpecificationsDto,
+    description: 'Характеристики',
+  })
   @IsObject({ message: 'Должно быть объектом характеристик' })
   @IsNotEmptyObject(
     {},

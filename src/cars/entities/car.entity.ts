@@ -16,11 +16,11 @@ export class Car {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: 'BMW X5', name: 'Название' })
+  @ApiProperty({ example: 'BMW X5', description: 'Название' })
   @Column({ nullable: false })
   name: string;
 
-  @ApiProperty({ example: '6 700 000', name: 'Стоимость' })
+  @ApiProperty({ example: '6 700 000', description: 'Стоимость' })
   @Column({ default: 0, nullable: false })
   price: number;
 
@@ -31,7 +31,7 @@ export class Car {
   @Column()
   specificationsId: number;
 
-  @ApiProperty({ type: () => Specifications, name: 'Характеристики' })
+  @ApiProperty({ type: () => Specifications, description: 'Характеристики' })
   @OneToOne(() => Specifications, { onDelete: 'CASCADE' })
   @JoinColumn()
   specifications: Specifications;

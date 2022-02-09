@@ -8,11 +8,11 @@ export class Color {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: 'Черный', name: 'Название цвета' })
+  @ApiProperty({ example: 'Черный', description: 'Название цвета' })
   @Column({ nullable: false })
   name: string;
 
-  @ApiProperty({ example: '#000000', name: 'HEX код цвета' })
+  @ApiProperty({ example: '#000000', description: 'HEX код цвета' })
   @Column({ nullable: false })
   hex: string;
 

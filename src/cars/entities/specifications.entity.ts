@@ -9,43 +9,47 @@ export class Specifications {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ApiProperty({ example: '2017', name: 'Год выпуска' })
+  @ApiProperty({ example: '2017', description: 'Год выпуска' })
   @Column({ nullable: false })
   releaseYear: number;
 
-  @ApiProperty({ example: '32 000', name: 'Пробег' })
+  @ApiProperty({ example: '32 000', description: 'Пробег' })
   @Column({ default: 0 })
   mileage: number;
 
-  @ApiProperty({ enum: CarBody, example: 'Седан', name: 'Кузов' })
+  @ApiProperty({ enum: CarBody, example: 'Седан', description: 'Кузов' })
   @Column({ type: 'enum', enum: CarBody })
   body: CarBody;
 
-  @ApiProperty({ type: () => Color, name: 'Цвет' })
+  @ApiProperty({ type: () => Color, description: 'Цвет' })
   @ManyToOne(() => Color, (color: Color) => color.specifications)
   color: Color;
 
-  @ApiProperty({ example: '18 700', name: 'Налог' })
+  @ApiProperty({ example: '18 700', description: 'Налог' })
   @Column()
   tax: number;
 
-  @ApiProperty({ example: 'Автоматическая', name: 'Коробка передач' })
+  @ApiProperty({ example: 'Автоматическая', description: 'Коробка передач' })
   @Column({ type: 'enum', enum: CarTransmission })
   transmission: CarTransmission;
 
-  @ApiProperty({ enum: CarDrive, example: 'Задний', name: 'Привод' })
+  @ApiProperty({ enum: CarDrive, example: 'Задний', description: 'Привод' })
   @Column({ type: 'enum', enum: CarDrive })
   drive: CarDrive;
 
-  @ApiProperty({ enum: CarFuel, example: 'Дизель', name: 'Тип топлива' })
+  @ApiProperty({ enum: CarFuel, example: 'Дизель', description: 'Тип топлива' })
   @Column({ type: 'enum', enum: CarFuel })
   fuel: CarFuel;
 
-  @ApiProperty({ example: '250', name: 'Мощность л/с' })
+  @ApiProperty({ example: '250', description: 'Мощность л/с' })
   @Column()
   power: number;
 
-  @ApiProperty({ example: '2.0', type: 'float', name: 'Объем двигателя' })
+  @ApiProperty({
+    example: '2.0',
+    type: 'float',
+    description: 'Объем двигателя',
+  })
   @Column({ type: 'float' })
   volume: number;
 }
