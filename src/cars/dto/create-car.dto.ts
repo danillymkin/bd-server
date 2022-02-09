@@ -21,7 +21,7 @@ export class CreateCarDto {
   @Min(0, { message: 'Должна быть больше нуля' })
   readonly price: number;
 
-  @ApiProperty({ name: 'Описание' })
+  @ApiProperty({ description: 'Описание', example: 'Описание автомобиля' })
   @IsOptional()
   @IsString({ message: 'Должно быть строкой' })
   readonly description?: string;

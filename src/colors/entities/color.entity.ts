@@ -16,10 +16,6 @@ export class Color {
   @Column({ nullable: false })
   hex: string;
 
-  @ApiProperty({
-    type: () => [Specifications],
-    name: 'Список характеристик авто',
-  })
   @OneToMany(
     () => Specifications,
     (specifications: Specifications) => specifications.color,

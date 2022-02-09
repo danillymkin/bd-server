@@ -24,7 +24,7 @@ export class Car {
   @Column({ default: 0, nullable: false })
   price: number;
 
-  @ApiProperty({ name: 'Описание' })
+  @ApiProperty({ description: 'Описание', example: 'Описание автомобиля' })
   @Column({ type: 'text', nullable: true })
   description: string;
 
