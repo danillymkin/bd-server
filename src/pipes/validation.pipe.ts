@@ -19,12 +19,12 @@ export class ValidationPipe implements PipeTransform<any> {
     const errors = await validate(obj);
 
     if (errors.length) {
-      const messages = {
+      const response = {
         statusCode: HttpStatus.BAD_REQUEST,
         messages: this.getMessages(errors),
         error: 'Bad Request',
       };
-      throw new ValidationException(messages);
+      throw new ValidationException(response);
     }
 
     return value;
