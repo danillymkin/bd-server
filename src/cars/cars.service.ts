@@ -53,7 +53,13 @@ export class CarsService {
   ) {
     const car = this.carsRepository.create(createCarDto);
     car.specifications = specifications;
-    return await this.carsRepository.save(car);
+    await this.carsRepository.save(car);
+    return this.carsRepository.findOne(
+      { id: car.id },
+      {
+        relations: ['specifications', 'specifications.color'],
+      },
+    );
   }
 
   private async createSpecifications(
