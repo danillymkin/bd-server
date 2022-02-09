@@ -16,11 +16,15 @@ export class CarsService {
   ) {}
 
   async getAll(): Promise<Car[]> {
-    return await this.carsRepository.find();
+    return await this.carsRepository.find({
+      relations: ['specifications', 'specifications.color'],
+    });
   }
 
   async getById(id: number): Promise<Car> {
-    return await this.carsRepository.findOne(id);
+    return await this.carsRepository.findOne(id, {
+      relations: ['specifications', 'specifications.color'],
+    });
   }
 
   async create(createCarDto: CreateCarDto): Promise<Car> {
