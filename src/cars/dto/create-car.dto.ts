@@ -16,6 +16,10 @@ export class CreateCarDto {
   @IsString({ message: 'Должно быть строкой' })
   readonly name: string;
 
+  @ApiProperty({ example: '1', description: 'Id производителя' })
+  @IsNumber({}, { message: 'Должно быть числом' })
+  readonly manufacturerId: number;
+
   @ApiProperty({ example: '6 700 000', description: 'Стоимость' })
   @IsNumber({}, { message: 'Должна быть числом' })
   @Min(0, { message: 'Должна быть больше нуля' })

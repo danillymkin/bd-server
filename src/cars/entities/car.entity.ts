@@ -3,12 +3,14 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Specifications } from './specifications.entity';
 import { ApiProperty } from '@nestjs/swagger';
+import { Manufacturer } from '../../manufacturers/entities/manufacturer.entity';
 
 @Entity({ name: 'cars' })
 export class Car {
@@ -40,6 +42,17 @@ export class Car {
   })
   @JoinColumn()
   specifications: Specifications;
+
+  @Column()
+  manufacturerId: number;
+
+  @ApiProperty({ type: () => Manufacturer, description: 'Производитель' })
+  @ManyToOne(
+    () => Manufacturer,
+    (manufacturer: Manufacturer) => manufacturer.cars,
+    { eager: true },
+  )
+  manufacturer: Manufacturer;
 
   @CreateDateColumn()
   createdAt: Date;
