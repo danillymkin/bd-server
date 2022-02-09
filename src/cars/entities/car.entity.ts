@@ -28,8 +28,11 @@ export class Car {
   @Column({ type: 'text', nullable: true })
   description: string;
 
+  @Column()
+  specificationsId: number;
+
   @ApiProperty({ type: () => Specifications, name: 'Характеристики' })
-  @OneToOne(() => Specifications)
+  @OneToOne(() => Specifications, { onDelete: 'CASCADE' })
   @JoinColumn()
   specifications: Specifications;
 
