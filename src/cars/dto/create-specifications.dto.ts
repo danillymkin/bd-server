@@ -34,6 +34,10 @@ export class CreateSpecificationsDto {
   @IsEnum(CarBody, { message: 'Недопустимое значение' })
   readonly body: CarBody;
 
+  @ApiProperty({ example: '1', description: 'Id цвета' })
+  @IsNumber({}, { message: 'Должен быть числом' })
+  readonly colorId: number;
+
   @ApiProperty({ example: '18 700', description: 'Налог' })
   @IsOptional()
   @IsNumber({}, { message: 'Должно быть числом' })

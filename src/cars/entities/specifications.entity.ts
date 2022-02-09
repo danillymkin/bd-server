@@ -21,6 +21,10 @@ export class Specifications {
   @Column({ type: 'enum', enum: CarBody })
   body: CarBody;
 
+  @ApiProperty({ example: '1', description: 'Id цвета' })
+  @Column({ nullable: false })
+  colorId: number;
+
   @ApiProperty({ type: () => Color, description: 'Цвет' })
   @ManyToOne(() => Color, (color: Color) => color.specifications)
   color: Color;
