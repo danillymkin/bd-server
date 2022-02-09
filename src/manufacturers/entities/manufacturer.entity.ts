@@ -1,4 +1,11 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Car } from '../../cars/entities/car.entity';
 
@@ -9,10 +16,13 @@ export class Manufacturer {
   id: number;
 
   @ApiProperty({ example: 'BMW', description: 'Название' })
-  @Column({ nullable: false })
+  @Column()
   name: string;
 
-  @ApiProperty({ example: 'BMW', description: 'Адрес' })
+  @ApiProperty({
+    example: 'Москва, Ленинградское шоссе, 39а ст1',
+    description: 'Адрес',
+  })
   @Column()
   address: string;
 
@@ -35,4 +45,10 @@ export class Manufacturer {
   @ApiProperty({ type: () => [Car], description: 'Список автомобилей' })
   @OneToMany(() => Car, (car: Car) => car.manufacturer, { onDelete: 'CASCADE' })
   cars: Car[];
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
