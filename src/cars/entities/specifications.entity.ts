@@ -26,7 +26,9 @@ export class Specifications {
   colorId: number;
 
   @ApiProperty({ type: () => Color, description: 'Цвет' })
-  @ManyToOne(() => Color, (color: Color) => color.specifications)
+  @ManyToOne(() => Color, (color: Color) => color.specifications, {
+    eager: true,
+  })
   color: Color;
 
   @ApiProperty({ example: '18 700', description: 'Налог' })

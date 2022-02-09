@@ -32,7 +32,12 @@ export class Car {
   specificationsId: number;
 
   @ApiProperty({ type: () => Specifications, description: 'Характеристики' })
-  @OneToOne(() => Specifications, { onDelete: 'CASCADE' })
+  @OneToOne(() => Specifications, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+    cascade: true,
+    eager: true,
+  })
   @JoinColumn()
   specifications: Specifications;
 
