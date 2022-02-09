@@ -9,7 +9,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FindOneParamsDto } from '../utils/dto/find-one-params.dto';
+import { FindOneParamsDto } from '../validation/dto/find-one-params.dto';
 import { DeleteResult } from 'typeorm';
 import { ManufacturersService } from './manufacturers.service';
 import { Manufacturer } from './entities/manufacturer.entity';

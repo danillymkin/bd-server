@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { FindOneParamsDto } from '../utils/dto/find-one-params.dto';
+import { FindOneParamsDto } from '../validation/dto/find-one-params.dto';
 import { DeleteResult } from 'typeorm';
 import { Car } from './entities/car.entity';
 import { CreateCarDto } from './dto/create-car.dto';

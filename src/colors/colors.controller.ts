@@ -14,7 +14,7 @@ import { DeleteResult } from 'typeorm';
 import { CreateColorDto } from './dto/create-color.dto';
 import { UpdateColorDto } from './dto/update-color.dto';
 import { ColorsService } from './colors.service';
-import { FindOneParamsDto } from '../utils/dto/find-one-params.dto';
+import { FindOneParamsDto } from '../validation/dto/find-one-params.dto';
 
 @ApiTags('Цвета')
 @Controller('colors')

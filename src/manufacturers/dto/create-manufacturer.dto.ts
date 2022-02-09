@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString } from 'class-validator';
-import { IsBankAccount } from '../../validation/is-bank-account.decorator';
-import { IsBicCode } from '../../validation/is-bic-code.decorator';
+import { IsBankAccount } from '../../validation/decorators/is-bank-account.decorator';
+import { IsBicCode } from '../../validation/decorators/is-bic-code.decorator';
 
 export class CreateManufacturerDto {
   @ApiProperty({ example: 'BMW', description: 'Название' })

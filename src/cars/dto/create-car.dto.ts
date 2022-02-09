@@ -10,7 +10,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { IsManufacturerExist } from '../../validation/is-manufacturer-exist.decorator';
+import { IsManufacturerExist } from '../../validation/decorators/is-manufacturer-exist.decorator';
 
 export class CreateCarDto {
   @ApiProperty({ example: 'BMW X5', description: 'Название' })
