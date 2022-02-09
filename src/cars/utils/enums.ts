@@ -19,3 +19,8 @@ export enum CarFuel {
   GASOLINE = 'Бензин',
   DIESEL = 'Дизель',
 }
+
+export enum CarColor {
+  WHITE = 'Белый',
+  BLACK = 'Черный',
+}

@@ -2,15 +2,19 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Specifications } from './specifications.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Manufacturer } from '../../manufacturers/entities/manufacturer.entity';
+import {
+  CarBody,
+  CarColor,
+  CarDrive,
+  CarFuel,
+  CarTransmission,
+} from '../utils/enums';
 
 @Entity({ name: 'cars' })
 export class Car {
@@ -30,18 +34,49 @@ export class Car {
   @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column()
-  specificationsId: number;
+  @ApiProperty({ example: '2017', description: 'Год выпуска' })
+  @Column({ nullable: false })
+  releaseYear: number;
 
-  @ApiProperty({ type: () => Specifications, description: 'Характеристики' })
-  @OneToOne(() => Specifications, {
-    onDelete: 'CASCADE',
-    onUpdate: 'CASCADE',
-    cascade: true,
-    eager: true,
+  @ApiProperty({ example: '32 000', description: 'Пробег' })
+  @Column({ default: 0 })
+  mileage: number;
+
+  @ApiProperty({ enum: CarBody, example: 'Седан', description: 'Кузов' })
+  @Column({ type: 'enum', enum: CarBody })
+  body: CarBody;
+
+  @ApiProperty({ example: 'Черный', description: 'Цвет' })
+  @Column({ type: 'enum', enum: CarColor })
+  color: CarColor;
+
+  @ApiProperty({ example: '18 700', description: 'Налог' })
+  @Column()
+  tax: number;
+
+  @ApiProperty({ example: 'Автоматическая', description: 'Коробка передач' })
+  @Column({ type: 'enum', enum: CarTransmission })
+  transmission: CarTransmission;
+
+  @ApiProperty({ enum: CarDrive, example: 'Задний', description: 'Привод' })
+  @Column({ type: 'enum', enum: CarDrive })
+  drive: CarDrive;
+
+  @ApiProperty({ enum: CarFuel, example: 'Дизель', description: 'Тип топлива' })
+  @Column({ type: 'enum', enum: CarFuel })
+  fuel: CarFuel;
+
+  @ApiProperty({ example: '250', description: 'Мощность л/с' })
+  @Column()
+  power: number;
+
+  @ApiProperty({
+    example: '2.0',
+    type: 'float',
+    description: 'Объем двигателя',
   })
-  @JoinColumn()
-  specifications: Specifications;
+  @Column({ type: 'float' })
+  volume: number;
 
   @Column()
   manufacturerId: number;

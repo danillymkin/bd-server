@@ -4,15 +4,10 @@ import { DeleteResult, Repository } from 'typeorm';
 import { Car } from './entities/car.entity';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CreateCarDto } from './dto/create-car.dto';
-import { Specifications } from './entities/specifications.entity';
 
 @Injectable()
 export class CarsService {
-  constructor(
-    @InjectRepository(Car) private carsRepository: Repository<Car>,
-    @InjectRepository(Specifications)
-    private specificationsRepository: Repository<Specifications>,
-  ) {}
+  constructor(@InjectRepository(Car) private carsRepository: Repository<Car>) {}
 
   async getAll(): Promise<Car[]> {
     return await this.carsRepository.find();
@@ -29,19 +24,11 @@ export class CarsService {
   }
 
   async update(id: number, updateCarDto: UpdateCarDto): Promise<Car> {
-    const { specifications: specificationsDto, ...carDto } = updateCarDto;
-    const car = await this.findOneOrNotFound(id);
-    await this.carsRepository.update({ id }, carDto);
-    await this.specificationsRepository.update(
-      { id: car.specificationsId },
-      specificationsDto,
-    );
+    await this.carsRepository.update({ id }, updateCarDto);
     return await this.carsRepository.findOne(id);
   }
 
   async remove(id: number): Promise<DeleteResult> {
-    const car = await this.findOneOrNotFound(id);
-    await this.specificationsRepository.delete({ id: car.specificationsId });
     return await this.carsRepository.delete(id);
   }
 

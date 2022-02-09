@@ -4,7 +4,6 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CarsModule } from './cars/cars.module';
-import { ColorsModule } from './colors/colors.module';
 import { ManufacturersModule } from './manufacturers/manufacturers.module';
 
 @Module({
@@ -25,7 +24,6 @@ import { ManufacturersModule } from './manufacturers/manufacturers.module';
       logging: ['error', 'query'],
     }),
     CarsModule,
-    ColorsModule,
     ManufacturersModule,
   ],
   controllers: [AppController],
