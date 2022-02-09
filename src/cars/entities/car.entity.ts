@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Specifications } from './specifications.entity';
 import { ApiProperty } from '@nestjs/swagger';
@@ -30,4 +32,10 @@ export class Car {
   @OneToOne(() => Specifications)
   @JoinColumn()
   specifications: Specifications;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
