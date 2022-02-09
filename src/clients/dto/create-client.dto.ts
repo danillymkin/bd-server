@@ -38,7 +38,7 @@ export class CreateClientDto {
   @IsPhoneNumber('RU', { message: 'Должно быть номером факса' })
   fax: string;
 
-  @ApiProperty({ description: 'Номер счета' })
+  @ApiProperty({ example: '40817810099910004312', description: 'Номер счета' })
   @IsString({ message: 'Должно быть строкой' })
   @IsBankAccount({
     message: 'Должно быть номером банковского счета',

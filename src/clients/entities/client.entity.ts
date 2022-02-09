@@ -46,7 +46,7 @@ export class Client {
   @Column()
   fax: string;
 
-  @ApiProperty({ description: 'Номер счета' })
+  @ApiProperty({ example: '40817810099910004312', description: 'Номер счета' })
   @Column()
   account: string;
 

@@ -34,11 +34,11 @@ export class Manufacturer {
   @Column()
   accountant: string;
 
-  @ApiProperty({ description: 'Номер счета' })
+  @ApiProperty({ example: '40817810099910004312', description: 'Номер счета' })
   @Column()
   account: string;
 
-  @ApiProperty({ description: 'БИК' })
+  @ApiProperty({ example: '044525974', description: 'БИК' })
   @Column()
   bic: string;
 
