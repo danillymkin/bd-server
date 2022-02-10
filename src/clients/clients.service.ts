@@ -17,7 +17,9 @@ export class ClientsService {
   }
 
   async getById(id: number): Promise<Client> {
-    return await this.clientsRepository.findOne(id);
+    return await this.clientsRepository.findOne(id, {
+      relations: ['notes'],
+    });
   }
 
   async create(createClientDto: CreateClientDto): Promise<Client> {
@@ -27,7 +29,9 @@ export class ClientsService {
 
   async update(id: number, updateClientDto: UpdateClientDto): Promise<Client> {
     await this.clientsRepository.update({ id }, updateClientDto);
-    return await this.clientsRepository.findOne(id);
+    return await this.clientsRepository.findOne(id, {
+      relations: ['notes'],
+    });
   }
 
   async remove(id: number): Promise<DeleteResult> {
