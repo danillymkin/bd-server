@@ -2,10 +2,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
+import { Note } from '../../notes/entities/note.entity';
 
 @Entity({ name: 'clients' })
 export class Client {
@@ -49,6 +51,10 @@ export class Client {
   @ApiProperty({ example: '40817810099910004312', description: 'Номер счета' })
   @Column()
   account: string;
+
+  @ApiProperty({ type: () => [Note], description: 'Список заметок' })
+  @OneToMany(() => Note, (note: Note) => note.client)
+  notes: Note[];
 
   @CreateDateColumn()
   createdAt: Date;
