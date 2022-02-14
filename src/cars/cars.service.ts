@@ -4,13 +4,14 @@ import { DeleteResult, Repository } from 'typeorm';
 import { Car } from './entities/car.entity';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CreateCarDto } from './dto/create-car.dto';
+import { AllAndCount } from '../types/AllAndCount';
 
 @Injectable()
 export class CarsService {
   constructor(@InjectRepository(Car) private carsRepository: Repository<Car>) {}
 
-  async getAll(): Promise<Car[]> {
-    return await this.carsRepository.find();
+  async getAll(): Promise<AllAndCount<Car>> {
+    return await this.carsRepository.findAndCount();
   }
 
   async getById(id: number): Promise<Car> {

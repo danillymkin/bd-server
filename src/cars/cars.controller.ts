@@ -15,6 +15,7 @@ import { DeleteResult } from 'typeorm';
 import { Car } from './entities/car.entity';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
+import { AllAndCount } from '../types/AllAndCount';
 
 @ApiTags('Автомобили')
 @Controller('cars')
@@ -24,7 +25,7 @@ export class CarsController {
   @ApiOperation({ summary: 'Получить все автомобили' })
   @ApiResponse({ status: HttpStatus.OK, type: [Car] })
   @Get()
-  getAll(): Promise<Car[]> {
+  getAll(): Promise<AllAndCount<Car>> {
     return this.carsService.getAll();
   }
 
