@@ -19,6 +19,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserData } from './decorators/user-data.decorator';
 import { RefreshToken } from './decorators/refresh-token.decorator';
 import { Auth } from './decorators/auth.decorator';
+import { Role } from './enums/role.enum';
 
 @ApiTags('Аутентификация')
 @Controller('auth')
@@ -27,7 +28,7 @@ export class AuthController {
 
   @ApiOperation({ summary: 'Получить данные о своем профиле' })
   @ApiResponse({ status: HttpStatus.OK, type: User })
-  @Auth()
+  @Auth(Role.USER, Role.STAFF)
   @Get('profile')
   public profile(@RefreshToken() refreshToken: string): Promise<User> {
     return this.authService.profile(refreshToken);

@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { Response } from 'express';
+import { Role } from '../auth/enums/role.enum';
 
 @ApiTags('Пользователи')
 @Controller('users')
@@ -13,7 +14,7 @@ export class UsersController {
 
   @ApiOperation({ summary: 'Получить пользователя по id' })
   @ApiResponse({ status: HttpStatus.OK, type: User })
-  @Auth()
+  @Auth(Role.STAFF)
   @Get(':id')
   public getById(@Param() { id }: FindOneParamsDto): Promise<User> {
     return this.usersService.getById(id);

@@ -12,6 +12,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Note } from '../../notes/entities/note.entity';
 import { Token } from '../../tokens/entities/token.entity';
 import { Exclude } from 'class-transformer';
+import { Role } from '../../auth/enums/role.enum';
 
 @Entity({ name: 'users' })
 export class User {
@@ -27,6 +28,10 @@ export class User {
   @Exclude()
   @Column()
   password: string;
+
+  @ApiProperty({ example: 'USER', description: 'Роли пользователя' })
+  @Column({ type: 'enum', enum: Role, default: [Role.USER] })
+  roles: Role[];
 
   @ApiProperty({ example: true, description: 'Подтверждена ли почта' })
   @Column({ default: false })
