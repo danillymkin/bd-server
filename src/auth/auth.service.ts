@@ -91,7 +91,9 @@ export class AuthService {
     const hashPassword = await this.getHashedPassword(registerUserDto.password);
     const activationLink = uuid.v4();
     return await this.usersService.create({
-      ...registerUserDto,
+      email: registerUserDto.email,
+      firstName: registerUserDto.firstName,
+      lastName: registerUserDto.lastName,
       password: hashPassword,
       activationLink,
     });
