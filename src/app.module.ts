@@ -5,8 +5,17 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CarsModule } from './cars/cars.module';
 import { ManufacturersModule } from './manufacturers/manufacturers.module';
-import { ClientsModule } from './clients/clients.module';
 import { NotesModule } from './notes/notes.module';
+import { ImagesModule } from './images/images.module';
+import { FilesModule } from './files/files.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { AuthModule } from './auth/auth.module';
+import { UsersModule } from './users/users.module';
+import { TokensModule } from './tokens/tokens.module';
+import { MailModule } from './mail/mail.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
+import { join } from 'path';
 
 @Module({
   imports: [
@@ -25,10 +34,38 @@ import { NotesModule } from './notes/notes.module';
       logger: 'advanced-console',
       logging: ['error', 'query'],
     }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, 'static'),
+    }),
+    MailerModule.forRoot({
+      transport: {
+        host: process.env.SMTP_HOST,
+        port: +process.env.SMTP_PORT,
+        secure: false,
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASSWORD,
+        },
+      },
+      defaults: {
+        from: `"${process.env.SMTP_FROM_NAME}" <${process.env.SMTP_USER}>`,
+      },
+      template: {
+        adapter: new EjsAdapter(),
+        options: {
+          strict: true,
+        },
+      },
+    }),
     CarsModule,
     ManufacturersModule,
-    ClientsModule,
     NotesModule,
+    ImagesModule,
+    FilesModule,
+    AuthModule,
+    UsersModule,
+    TokensModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

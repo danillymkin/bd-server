@@ -7,6 +7,8 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FindOneParamsDto } from '../validation/dto/find-one-params.dto';
@@ -15,6 +17,8 @@ import { ManufacturersService } from './manufacturers.service';
 import { Manufacturer } from './entities/manufacturer.entity';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dto/update-manufacturer.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { onlyImagesFilter } from '../files/filters/only-images.filter';
 
 @ApiTags('Производители')
 @Controller('manufacturers')
@@ -46,12 +50,14 @@ export class ManufacturersController {
 
   @ApiOperation({ summary: 'Обновить производителя' })
   @ApiResponse({ status: HttpStatus.OK, type: Manufacturer })
+  @UseInterceptors(FileInterceptor('logo', { fileFilter: onlyImagesFilter }))
   @Patch(':id')
   update(
     @Param() { id }: FindOneParamsDto,
     @Body() updateManufacturerDto: UpdateManufacturerDto,
+    @UploadedFile() logo: Express.Multer.File,
   ): Promise<Manufacturer> {
-    return this.manufacturersService.update(id, updateManufacturerDto);
+    return this.manufacturersService.update(id, updateManufacturerDto, logo);
   }
 
   @ApiOperation({ summary: 'Удалить производителя' })

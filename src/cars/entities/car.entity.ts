@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -15,6 +16,7 @@ import {
   CarFuel,
   CarTransmission,
 } from '../utils/enums';
+import { Image } from '../../images/enities/image.entity';
 
 @Entity({ name: 'cars' })
 export class Car {
@@ -88,6 +90,10 @@ export class Car {
     { eager: true },
   )
   manufacturer: Manufacturer;
+
+  @ApiProperty({ type: () => [Image], description: 'Фотографии автомобиля' })
+  @OneToMany(() => Image, (image: Image) => image.car, { onDelete: 'CASCADE' })
+  images: Image[];
 
   @CreateDateColumn()
   createdAt: Date;

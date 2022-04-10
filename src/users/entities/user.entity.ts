@@ -21,7 +21,7 @@ export class User {
   id: number;
 
   @ApiProperty({ example: 'user@gmail.com', description: 'E-Mail' })
-  @Column()
+  @Column({ unique: true })
   email: string;
 
   @ApiProperty({ description: 'Пароль' })
@@ -38,6 +38,7 @@ export class User {
   isActivated: boolean;
 
   @ApiProperty({ description: 'Ссылка для подверждения почты' })
+  @Exclude()
   @Column({ nullable: true })
   activationLink: string;
 

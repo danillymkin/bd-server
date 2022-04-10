@@ -21,6 +21,13 @@ export class Manufacturer {
 
   @ApiProperty({
     example: 'Москва, Ленинградское шоссе, 39а ст1',
+    description: 'Название файла логотипа',
+  })
+  @Column()
+  logo: string;
+
+  @ApiProperty({
+    example: 'Москва, Ленинградское шоссе, 39а ст1',
     description: 'Адрес',
   })
   @Column()

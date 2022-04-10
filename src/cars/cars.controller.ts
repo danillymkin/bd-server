@@ -7,6 +7,8 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { CarsService } from './cars.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -16,6 +18,9 @@ import { Car } from './entities/car.entity';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { AllAndCount } from '../types/AllAndCount';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
+import { onlyImagesFilter } from '../files/filters/only-images.filter';
 
 @ApiTags('Автомобили')
 @Controller('cars')
@@ -58,5 +63,18 @@ export class CarsController {
   @Delete(':id')
   remove(@Param() { id }: FindOneParamsDto): Promise<DeleteResult> {
     return this.carsService.remove(id);
+  }
+
+  @UseInterceptors(
+    FilesInterceptor('images', 20, {
+      fileFilter: onlyImagesFilter,
+    }),
+  )
+  @Post('upload/:id')
+  addImages(
+    @Param() { id }: FindOneParamsDto,
+    @UploadedFiles() images: Array<Express.Multer.File>,
+  ) {
+    return this.carsService.addImages(id, images);
   }
 }

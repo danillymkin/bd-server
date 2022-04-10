@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Client } from '../../clients/entities/client.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity({ name: 'notes' })
 export class Note {
@@ -23,9 +23,9 @@ export class Note {
   @Column()
   clientId: number;
 
-  @ApiProperty({ type: () => Client, description: 'Клиент' })
-  @ManyToOne(() => Client, (client: Client) => client.notes)
-  client: Client;
+  @ApiProperty({ type: () => User, description: 'Клиент' })
+  @ManyToOne(() => User, (user: User) => user.notes)
+  user: User;
 
   @CreateDateColumn()
   createdAt: Date;

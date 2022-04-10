@@ -5,17 +5,24 @@ import { Car } from './entities/car.entity';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CreateCarDto } from './dto/create-car.dto';
 import { AllAndCount } from '../types/AllAndCount';
+import { Express } from 'express';
+import { FilesService } from '../files/files.service';
+import { ImagesService } from '../images/images.service';
 
 @Injectable()
 export class CarsService {
-  constructor(@InjectRepository(Car) private carsRepository: Repository<Car>) {}
+  constructor(
+    @InjectRepository(Car) private carsRepository: Repository<Car>,
+    private filesService: FilesService,
+    private imagesService: ImagesService,
+  ) {}
 
   async getAll(): Promise<AllAndCount<Car>> {
-    return await this.carsRepository.findAndCount();
+    return await this.carsRepository.findAndCount({ relations: ['images'] });
   }
 
   async getById(id: number): Promise<Car> {
-    return await this.carsRepository.findOne(id);
+    return await this.carsRepository.findOne(id, { relations: ['images'] });
   }
 
   async create(createCarDto: CreateCarDto): Promise<Car> {
@@ -31,5 +38,12 @@ export class CarsService {
 
   async remove(id: number): Promise<DeleteResult> {
     return await this.carsRepository.delete(id);
+  }
+
+  async addImages(carId: number, imageFiles: Array<Express.Multer.File>) {
+    imageFiles.map(async (imageFile: Express.Multer.File) => {
+      const fileName = await this.filesService.createFile(imageFile);
+      await this.imagesService.create({ carId, fileName });
+    });
   }
 }
