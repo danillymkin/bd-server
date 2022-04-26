@@ -20,7 +20,7 @@ import { join } from 'path';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `.env`,
+      envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
