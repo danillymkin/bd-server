@@ -22,17 +22,38 @@ import { join } from 'path';
     ConfigModule.forRoot({
       envFilePath: `.${process.env.NODE_ENV}.env`,
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.MYSQL_HOST,
-      port: +process.env.MYSQL_PORT,
-      username: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
-      database: process.env.MYSQL_DB,
-      entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true,
-      logger: 'advanced-console',
-      logging: ['error', 'query'],
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => {
+        if (process.env.NODE_ENV === 'test') {
+          console.log(__dirname);
+          return {
+            type: 'mysql',
+            host: process.env.MYSQL_HOST,
+            port: +process.env.MYSQL_PORT,
+            username: process.env.MYSQL_USER,
+            password: process.env.MYSQL_PASSWORD,
+            database: process.env.MYSQL_DB,
+            entities: ['./**/*.entity.ts'],
+            synchronize: true,
+            dropSchema: true,
+            logger: 'simple-console',
+            logging: ['error'],
+          };
+        } else {
+          return {
+            type: 'mysql',
+            host: process.env.MYSQL_HOST,
+            port: +process.env.MYSQL_PORT,
+            username: process.env.MYSQL_USER,
+            password: process.env.MYSQL_PASSWORD,
+            database: process.env.MYSQL_DB,
+            entities: ['dist/**/*.entity{.ts,.js}'],
+            synchronize: true,
+            logger: 'advanced-console',
+            logging: ['error', 'query'],
+          };
+        }
+      },
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, 'static'),
