@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -19,11 +20,12 @@ import { ConfigService } from '@nestjs/config';
 import { AccessToken } from './interfaces/access-token.interface';
 import { MailService } from '../mail/mail.service';
 import { TokenPayload } from '../tokens/interfaces/token-payload.interface';
+import { USERS_SERVICE } from '../users/users-service.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private usersService: UsersService,
+    @Inject(USERS_SERVICE) private usersService: UsersService,
     private tokensService: TokensService,
     private configService: ConfigService,
     private jwtService: JwtService,

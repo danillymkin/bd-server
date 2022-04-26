@@ -1,4 +1,11 @@
-import { Controller, Get, HttpStatus, Param, Res } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpStatus,
+  Inject,
+  Param,
+  Res,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { FindOneParamsDto } from '../validation/dto/find-one-params.dto';
 import { User } from './entities/user.entity';
@@ -6,11 +13,12 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { Response } from 'express';
 import { Role } from '../auth/enums/role.enum';
+import { USERS_SERVICE } from './users-service.interface';
 
 @ApiTags('Пользователи')
 @Controller('users')
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(@Inject(USERS_SERVICE) private usersService: UsersService) {}
 
   @ApiOperation({ summary: 'Получить пользователя по id' })
   @ApiResponse({ status: HttpStatus.OK, type: User })
