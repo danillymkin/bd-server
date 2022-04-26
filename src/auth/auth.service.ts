@@ -4,7 +4,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Response } from 'express';
-import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -88,13 +87,12 @@ export class AuthService {
   }
 
   private async createUser(registerUserDto: RegisterUserDto): Promise<User> {
-    const hashPassword = await this.getHashedPassword(registerUserDto.password);
     const activationLink = uuid.v4();
     return await this.usersService.create({
       email: registerUserDto.email,
       firstName: registerUserDto.firstName,
       lastName: registerUserDto.lastName,
-      password: hashPassword,
+      password: registerUserDto.password,
       activationLink,
     });
   }
@@ -121,11 +119,6 @@ export class AuthService {
         expiresIn,
       }),
     };
-  }
-
-  private async getHashedPassword(password: string): Promise<string> {
-    const hashSalt = +this.configService.get<number>('HASH_SALT');
-    return await bcrypt.hash(password, hashSalt);
   }
 
   private setRefreshTokenInCookie(
