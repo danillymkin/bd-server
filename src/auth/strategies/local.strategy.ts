@@ -20,7 +20,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       return await this.usersService.validate(email, password);
     } catch (e) {
       throw new UnauthorizedException({
-        messages: 'Неверный E-Mail или пароль',
+        messages: ['Неверный E-Mail или пароль'],
       });
     }
   }
