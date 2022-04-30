@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Car } from '../../cars/entities/car.entity';
+import { SupplyContract } from '../../supply-contract/entities/supply-contract.entity';
 
 @Entity({ name: 'manufacturers' })
 export class Manufacturer {
@@ -23,7 +24,7 @@ export class Manufacturer {
     example: 'Москва, Ленинградское шоссе, 39а ст1',
     description: 'Название файла логотипа',
   })
-  @Column()
+  @Column({ nullable: true })
   logo: string;
 
   @ApiProperty({
@@ -52,6 +53,12 @@ export class Manufacturer {
   @ApiProperty({ type: () => [Car], description: 'Список автомобилей' })
   @OneToMany(() => Car, (car: Car) => car.manufacturer, { onDelete: 'CASCADE' })
   cars: Car[];
+
+  @OneToMany(
+    () => SupplyContract,
+    (supplyContracts: SupplyContract) => supplyContracts.manufacturer,
+  )
+  supplyContracts: SupplyContract[];
 
   @CreateDateColumn()
   createdAt: Date;
