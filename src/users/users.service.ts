@@ -67,7 +67,6 @@ export class UsersService {
       const user = await this.getByActivationLink(activationLink);
       await this.usersRepository.save({ ...user, isActivated: true });
     } catch (e) {
-      console.log(e);
       throw new BadRequestException({
         message: 'Некорректная ссылка активации',
       });
