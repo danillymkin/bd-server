@@ -16,12 +16,12 @@ export class Note {
   id: number;
 
   @ApiProperty({ example: 'Краткая заметка', description: 'Текст заметки' })
-  @Column({ type: 'mediumtext' })
+  @Column({ type: 'varchar', length: 1000 })
   text: string;
 
   @ApiProperty({ example: '1', description: 'Id клиента' })
   @Column()
-  clientId: number;
+  userId: number;
 
   @ApiProperty({ type: () => User, description: 'Клиент' })
   @ManyToOne(() => User, (user: User) => user.notes)
