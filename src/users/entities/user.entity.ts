@@ -13,6 +13,8 @@ import { Note } from '../../notes/entities/note.entity';
 import { Token } from '../../tokens/entities/token.entity';
 import { Exclude } from 'class-transformer';
 import { Role } from '../../auth/enums/role.enum';
+import { Order } from '../../order/entities/order.entity';
+import { SalesContract } from '../../sales-contract/entities/sales-contract.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -40,12 +42,12 @@ export class User {
   @ApiProperty({ description: 'Ссылка для подверждения почты' })
   @Exclude()
   @Column({ nullable: true })
-  activationLink: string;
+  activationLink?: string;
 
   @ApiProperty({ type: () => Token, description: 'Refresh token' })
   @OneToOne(() => Token, (refreshToken: Token) => refreshToken.user)
   @JoinColumn()
-  refreshToken: Token;
+  refreshToken?: Token;
 
   @ApiProperty({ example: 'Иван', description: 'Имя' })
   @Column()
@@ -57,36 +59,45 @@ export class User {
 
   @ApiProperty({ example: 'Иванович', description: 'Отчество' })
   @Column({ nullable: true })
-  patronymic: string;
+  patronymic?: string;
 
   @ApiProperty({
     example: 'Москва, Ленинградское шоссе, 39а ст1',
     description: 'Адрес',
   })
   @Column({ nullable: true })
-  address: string;
+  address?: string;
 
   @ApiProperty({
     example: '+7 (800) 222-33-44',
     description: 'Телефон',
   })
   @Column({ nullable: true })
-  phone: string;
+  phone?: string;
 
   @ApiProperty({
     example: '+7 (800) 222-33-44',
     description: 'Факс',
   })
   @Column({ nullable: true })
-  fax: string;
+  fax?: string;
 
   @ApiProperty({ example: '40817810099910004312', description: 'Номер счета' })
   @Column({ nullable: true })
-  account: string;
+  account?: string;
 
   @ApiProperty({ type: () => [Note], description: 'Список заметок' })
   @OneToMany(() => Note, (note: Note) => note.user)
-  notes: Note[];
+  notes?: Note[];
+
+  @OneToMany(() => Order, (order: Order) => order.user)
+  orders?: Order[];
+
+  @OneToMany(
+    () => SalesContract,
+    (salesContracts: SalesContract) => salesContracts.customer,
+  )
+  salesContracts?: SalesContract[];
 
   @CreateDateColumn()
   createdAt: Date;
