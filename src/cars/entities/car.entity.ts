@@ -17,6 +17,8 @@ import {
   CarTransmission,
 } from '../utils/enums';
 import { Image } from '../../images/enities/image.entity';
+import { Consignment } from '../../consignment/entities/consignment.entity';
+import { CarToOrder } from '../../order/entities/car-to-order.entity';
 
 @Entity({ name: 'cars' })
 export class Car {
@@ -94,6 +96,15 @@ export class Car {
   @ApiProperty({ type: () => [Image], description: 'Фотографии автомобиля' })
   @OneToMany(() => Image, (image: Image) => image.car, { onDelete: 'CASCADE' })
   images: Image[];
+
+  @OneToMany(
+    () => Consignment,
+    (carToConsignment: Consignment) => carToConsignment.car,
+  )
+  carToConsignment: Consignment[];
+
+  @OneToMany(() => CarToOrder, (carToOrder: CarToOrder) => carToOrder.car)
+  carToOrder: CarToOrder[];
 
   @CreateDateColumn()
   createdAt: Date;
