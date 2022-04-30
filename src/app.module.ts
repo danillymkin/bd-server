@@ -8,13 +8,18 @@ import { ManufacturersModule } from './manufacturers/manufacturers.module';
 import { NotesModule } from './notes/notes.module';
 import { ImagesModule } from './images/images.module';
 import { FilesModule } from './files/files.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TokensModule } from './tokens/tokens.module';
 import { MailModule } from './mail/mail.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
+import { ConsignmentModule } from './consignment/consignment.module';
+import { OrderModule } from './order/order.module';
+import { InvoiceModule } from './invoice/invoice.module';
+import { SalesContractModule } from './sales-contract/sales-contract.module';
+import { SupplyContractModule } from './supply-contract/supply-contract.module';
 import { join } from 'path';
 
 @Module({
@@ -87,6 +92,11 @@ import { join } from 'path';
     UsersModule,
     TokensModule,
     MailModule,
+    ConsignmentModule,
+    OrderModule,
+    InvoiceModule,
+    SalesContractModule,
+    SupplyContractModule,
   ],
   controllers: [AppController],
   providers: [AppService],
