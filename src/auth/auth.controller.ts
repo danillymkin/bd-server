@@ -4,6 +4,7 @@ import {
   Get,
   HttpStatus,
   Post,
+  Redirect,
   Req,
   Res,
   UseGuards,
@@ -18,7 +19,8 @@ import { AccessToken } from './interfaces/access-token.interface';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserData } from './decorators/user-data.decorator';
 import { RefreshToken } from './decorators/refresh-token.decorator';
-import { Auth } from './decorators/auth.decorator';
+import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { UserAndToken } from '../users/types/user-and-token.type';
 
 @ApiTags('Аутентификация')
 @Controller('auth')
@@ -74,5 +76,17 @@ export class AuthController {
   ): Promise<void> {
     response.clearCookie(REFRESH_TOKEN_COOKIE_NAME);
     return this.authService.logout(refreshToken, request);
+  }
+
+  @Get('google')
+  @UseGuards(GoogleAuthGuard)
+  // eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
+  public googleAuth(@Req() req) {}
+
+  @Get('google/redirect')
+  @UseGuards(GoogleAuthGuard)
+  @Redirect('http://localhost:3000')
+  public googleAuthRedirect(@Req() req, @Res({ passthrough: true }) res) {
+    return this.authService.googleLogin(req, res);
   }
 }

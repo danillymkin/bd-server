@@ -4,7 +4,7 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { Response } from 'express';
+import { Request, Response } from 'express';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
@@ -79,11 +79,45 @@ export class AuthService {
     await this.tokensService.remove(refreshToken);
   }
 
+  public async googleLogin(req: Request, res: Response) {
+    this.checkUserInReq(req);
+    const candidate = await this.usersService.getByEmail(
+      req.user['email'] || '',
+    );
+    if (candidate) {
+      return this.login(candidate, res);
+    } else {
+      return this.registerUserWithGoogle(req, res);
+    }
+  }
+
+  private async registerUserWithGoogle(req: Request, res: Response) {
+    const password = uuid.v4();
+    return this.register(
+      {
+        email: req.user['email'],
+        lastName: req.user['lastName'],
+        firstName: req.user['firstName'],
+        password,
+        activationLink: '',
+      },
+      res,
+    );
+  }
+
   private async checkUserIsNotExist(email: string) {
     const candidate = await this.usersService.getByEmail(email);
     if (candidate) {
       throw new BadRequestException({
         message: `Пользователь с почтовым адресом ${email} уже существует`,
+      });
+    }
+  }
+
+  private checkUserInReq(req: Request): BadRequestException {
+    if (!req.user && !req.user['email']) {
+      return new BadRequestException({
+        message: 'Не удалось получить пользователя',
       });
     }
   }
