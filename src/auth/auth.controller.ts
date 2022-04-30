@@ -15,7 +15,6 @@ import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { REFRESH_TOKEN_COOKIE_NAME } from './utils/constants';
 import { User } from '../users/entities/user.entity';
-import { AccessToken } from './interfaces/access-token.interface';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserData } from './decorators/user-data.decorator';
 import { RefreshToken } from './decorators/refresh-token.decorator';
@@ -27,23 +26,15 @@ import { UserAndToken } from '../users/types/user-and-token.type';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  @ApiOperation({ summary: 'Получить данные о своем профиле' })
-  @ApiResponse({ status: HttpStatus.OK, type: User })
-  @Auth()
-  @Get('profile')
-  public profile(@RefreshToken() refreshToken: string): Promise<User> {
-    return this.authService.profile(refreshToken);
-  }
-
   @ApiOperation({ summary: 'Войти в аккаунт' })
   @ApiResponse({ status: HttpStatus.OK })
   @UseGuards(LocalAuthGuard)
   @Post('login')
   public login(
-    @UserData() user: User,
+    @UserData() userData: User,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<AccessToken> {
-    return this.authService.login(user, response);
+  ): Promise<UserAndToken> {
+    return this.authService.login(userData, response);
   }
 
   @ApiOperation({ summary: 'Зарегистрировать аккаунт' })
@@ -52,7 +43,7 @@ export class AuthController {
   public register(
     @Body() registerUserDto: RegisterUserDto,
     @Res({ passthrough: true }) response: Response,
-  ): Promise<AccessToken> {
+  ): Promise<UserAndToken> {
     return this.authService.register(registerUserDto, response);
   }
 
@@ -62,7 +53,7 @@ export class AuthController {
   public refresh(
     @Res({ passthrough: true }) response: Response,
     @RefreshToken() refreshToken: string,
-  ): Promise<AccessToken> {
+  ): Promise<UserAndToken> {
     return this.authService.refresh(refreshToken, response);
   }
 

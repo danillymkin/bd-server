@@ -17,10 +17,10 @@ import {
 } from './utils/constants';
 import * as uuid from 'uuid';
 import { ConfigService } from '@nestjs/config';
-import { AccessToken } from './interfaces/access-token.interface';
 import { MailService } from '../mail/mail.service';
 import { TokenPayload } from '../tokens/interfaces/token-payload.interface';
 import { USERS_SERVICE } from '../users/users-service.interface';
+import { UserAndToken } from '../users/types/user-and-token.type';
 
 @Injectable()
 export class AuthService {
@@ -32,20 +32,23 @@ export class AuthService {
     private mailService: MailService,
   ) {}
 
-  public async profile(refreshToken: string): Promise<User> {
-    const tokenPayload = this.tokensService.validate(refreshToken);
-    return await this.usersService.getByEmail(tokenPayload.email);
-  }
-
-  public async login(user: User, response: Response): Promise<AccessToken> {
-    await this.setRefreshToken(user, response);
-    return this.getAccessToken(user);
+  public async login(
+    userData: User,
+    response: Response,
+  ): Promise<UserAndToken> {
+    await this.setRefreshToken(userData, response);
+    const accessToken = this.getAccessToken(userData);
+    const user = await this.usersService.getSerializedUserById(userData.id);
+    return {
+      user,
+      accessToken,
+    };
   }
 
   public async register(
     registerUserDto: RegisterUserDto,
     response: Response,
-  ): Promise<AccessToken> {
+  ): Promise<UserAndToken> {
     await this.checkUserIsNotExist(registerUserDto.email);
     const user = await this.createUser(registerUserDto);
     await this.sendActivationMail(user.email, user.activationLink);
@@ -55,7 +58,7 @@ export class AuthService {
   public async refresh(
     refreshToken: string,
     response: Response,
-  ): Promise<AccessToken> {
+  ): Promise<UserAndToken> {
     const tokenPayload = await this.getTokenPayloadFromRefresh(refreshToken);
     const user = await this.usersService.getByEmail(tokenPayload.email);
     return await this.login(user, response);
@@ -145,16 +148,14 @@ export class AuthService {
     this.setRefreshTokenInCookie(response, refreshToken);
   }
 
-  private getAccessToken(user: User): AccessToken {
+  private getAccessToken(user: User): string {
     const payload = this.tokensService.createPayload(user);
     const secret = this.configService.get<string>('JWT_ACCESS_SECRET');
     const expiresIn = this.configService.get<string>('JWT_ACCESS_EXPIRES_IN');
-    return {
-      accessToken: this.jwtService.sign(payload, {
-        secret,
-        expiresIn,
-      }),
-    };
+    return this.jwtService.sign(payload, {
+      secret,
+      expiresIn,
+    });
   }
 
   private setRefreshTokenInCookie(
