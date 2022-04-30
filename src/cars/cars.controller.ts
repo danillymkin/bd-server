@@ -18,9 +18,8 @@ import { Car } from './entities/car.entity';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { AllAndCount } from '../types/AllAndCount';
-import { FilesInterceptor } from '@nestjs/platform-express';
-import { Express } from 'express';
 import { onlyImagesFilter } from '../files/filters/only-images.filter';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @ApiTags('Автомобили')
 @Controller('cars')

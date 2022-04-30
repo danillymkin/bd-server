@@ -1,11 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository } from 'typeorm';
 import { Car } from './entities/car.entity';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CreateCarDto } from './dto/create-car.dto';
 import { AllAndCount } from '../types/AllAndCount';
-import { Express } from 'express';
 import { FilesService } from '../files/files.service';
 import { ImagesService } from '../images/images.service';
 
@@ -41,9 +40,13 @@ export class CarsService {
   }
 
   async addImages(carId: number, imageFiles: Array<Express.Multer.File>) {
-    imageFiles.map(async (imageFile: Express.Multer.File) => {
-      const fileName = await this.filesService.createFile(imageFile);
-      await this.imagesService.create({ carId, fileName });
-    });
+    try {
+      imageFiles.map(async (imageFile: Express.Multer.File) => {
+        const fileName = await this.filesService.createFile(imageFile);
+        await this.imagesService.create({ carId, fileName });
+      });
+    } catch (e) {
+      return new BadRequestException({ messages: 'Нет изображений' });
+    }
   }
 }
