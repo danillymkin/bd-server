@@ -4,7 +4,6 @@ import { Manufacturer } from './entities/manufacturer.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dto/update-manufacturer.dto';
-import { Express } from 'express';
 import { FilesService } from '../files/files.service';
 
 @Injectable()
