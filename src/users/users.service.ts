@@ -6,6 +6,7 @@ import { RegisterUserDto } from '../auth/dto/register-user.dto';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -23,7 +24,11 @@ export class UsersService {
   }
 
   public async create(registerUserDto: RegisterUserDto): Promise<User> {
-    const user = this.usersRepository.create(registerUserDto);
+    const hashPassword = await this.getHashedPassword(registerUserDto.password);
+    const user = this.usersRepository.create({
+      ...registerUserDto,
+      password: hashPassword,
+    });
     return await this.usersRepository.save(user);
   }
 
@@ -45,6 +50,16 @@ export class UsersService {
       return user;
     }
     throw new BadRequestException({ message: 'Неверный E-Mail или пароль' });
+  }
+
+  public async getSerializedUserById(id: number): Promise<Partial<User>> {
+    const user = await this.getById(id);
+    return instanceToPlain<User>(user);
+  }
+
+  private async getHashedPassword(password: string): Promise<string> {
+    const hashSalt = await bcrypt.genSalt();
+    return await bcrypt.hash(password, hashSalt);
   }
 
   private async activateUserByLink(activationLink: string) {
