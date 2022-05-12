@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TokensModule } from '../tokens/tokens.module';
 import { MailModule } from '../mail/mail.module';
 import { GoogleStrategy } from './strategies/google.strategy';
+import { RoleModule } from '../role/role.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { GoogleStrategy } from './strategies/google.strategy';
     PassportModule,
     ConfigModule,
     TokensModule,
+    RoleModule,
     MailModule,
     JwtModule.register({}),
   ],
