@@ -7,7 +7,7 @@ import {
 import { Reflector } from '@nestjs/core';
 import { Observable } from 'rxjs';
 import { ROLES_KEY } from '../utils/constants';
-import { Role } from '../../users/entities/role.entity';
+import { Role } from '../../role/entities/role.entity';
 import { RoleName } from '../../role/enum/role-name.enum';
 import { User } from '../../users/entities/user.entity';
 
