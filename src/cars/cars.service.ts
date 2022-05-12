@@ -4,7 +4,7 @@ import { DeleteResult, Repository } from 'typeorm';
 import { Car } from './entities/car.entity';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CreateCarDto } from './dto/create-car.dto';
-import { AllAndCount } from '../types/AllAndCount';
+import { AllAndCount } from '../types/all-and-count.type';
 import { FilesService } from '../files/files.service';
 import { ImagesService } from '../images/images.service';
 

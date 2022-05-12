@@ -17,7 +17,7 @@ import { DeleteResult } from 'typeorm';
 import { Car } from './entities/car.entity';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
-import { AllAndCount } from '../types/AllAndCount';
+import { AllAndCount } from '../types/all-and-count.type';
 import { onlyImagesFilter } from '../files/filters/only-images.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
