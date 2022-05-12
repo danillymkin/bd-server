@@ -21,6 +21,7 @@ import { InvoiceModule } from './invoice/invoice.module';
 import { SalesContractModule } from './sales-contract/sales-contract.module';
 import { SupplyContractModule } from './supply-contract/supply-contract.module';
 import { join } from 'path';
+import { RoleModule } from './role/role.module';
 
 @Module({
   imports: [
@@ -97,6 +98,7 @@ import { join } from 'path';
     InvoiceModule,
     SalesContractModule,
     SupplyContractModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],

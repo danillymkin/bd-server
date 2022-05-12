@@ -3,6 +3,8 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -12,9 +14,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Note } from '../../notes/entities/note.entity';
 import { Token } from '../../tokens/entities/token.entity';
 import { Exclude } from 'class-transformer';
-import { Role } from '../../auth/enums/role.enum';
 import { Order } from '../../order/entities/order.entity';
 import { SalesContract } from '../../sales-contract/entities/sales-contract.entity';
+import { Role } from './role.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -32,7 +34,8 @@ export class User {
   password: string;
 
   @ApiProperty({ example: 'USER', description: 'Роли пользователя' })
-  @Column({ type: 'enum', enum: Role, default: [Role.USER] })
+  @ManyToMany(() => Role, { eager: true })
+  @JoinTable()
   roles: Role[];
 
   @ApiProperty({ example: true, description: 'Подтверждена ли почта' })
