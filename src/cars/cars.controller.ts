@@ -20,6 +20,8 @@ import { UpdateCarDto } from './dto/update-car.dto';
 import { AllAndCount } from '../types/all-and-count.type';
 import { onlyImagesFilter } from '../files/filters/only-images.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { RoleName } from '../role/enum/role-name.enum';
 
 @ApiTags('Автомобили')
 @Controller('cars')
@@ -42,6 +44,7 @@ export class CarsController {
 
   @ApiOperation({ summary: 'Создать автомобиль' })
   @ApiResponse({ status: HttpStatus.CREATED, type: Car })
+  @Auth(RoleName.ADMIN)
   @Post()
   create(@Body() createCarDto: CreateCarDto): Promise<Car> {
     return this.carsService.create(createCarDto);
@@ -49,6 +52,7 @@ export class CarsController {
 
   @ApiOperation({ summary: 'Обновить автомобиль' })
   @ApiResponse({ status: HttpStatus.OK, type: Car })
+  @Auth(RoleName.ADMIN)
   @Patch(':id')
   update(
     @Param() { id }: FindOneParamsDto,
@@ -59,6 +63,7 @@ export class CarsController {
 
   @ApiOperation({ summary: 'Удалить автомобиль' })
   @ApiResponse({ status: HttpStatus.OK, type: DeleteResult })
+  @Auth(RoleName.ADMIN)
   @Delete(':id')
   remove(@Param() { id }: FindOneParamsDto): Promise<DeleteResult> {
     return this.carsService.remove(id);
@@ -69,6 +74,7 @@ export class CarsController {
       fileFilter: onlyImagesFilter,
     }),
   )
+  @Auth(RoleName.ADMIN)
   @Post('upload/:id')
   addImages(
     @Param() { id }: FindOneParamsDto,

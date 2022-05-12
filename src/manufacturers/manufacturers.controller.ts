@@ -19,6 +19,8 @@ import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dto/update-manufacturer.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { onlyImagesFilter } from '../files/filters/only-images.filter';
+import { Auth } from '../auth/decorators/auth.decorator';
+import { RoleName } from '../role/enum/role-name.enum';
 
 @ApiTags('Производители')
 @Controller('manufacturers')
@@ -41,6 +43,7 @@ export class ManufacturersController {
 
   @ApiOperation({ summary: 'Создать производителя' })
   @ApiResponse({ status: HttpStatus.CREATED, type: Manufacturer })
+  @Auth(RoleName.ADMIN)
   @Post()
   create(
     @Body() createManufacturerDto: CreateManufacturerDto,
@@ -51,6 +54,7 @@ export class ManufacturersController {
   @ApiOperation({ summary: 'Обновить производителя' })
   @ApiResponse({ status: HttpStatus.OK, type: Manufacturer })
   @UseInterceptors(FileInterceptor('logo', { fileFilter: onlyImagesFilter }))
+  @Auth(RoleName.ADMIN)
   @Patch(':id')
   update(
     @Param() { id }: FindOneParamsDto,
@@ -62,6 +66,7 @@ export class ManufacturersController {
 
   @ApiOperation({ summary: 'Удалить производителя' })
   @ApiResponse({ status: HttpStatus.OK, type: DeleteResult })
+  @Auth(RoleName.ADMIN)
   @Delete(':id')
   remove(@Param() { id }: FindOneParamsDto): Promise<DeleteResult> {
     return this.manufacturersService.remove(id);
