@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Role } from '../users/entities/role.entity';
 import { InjectRepository } from '@nestjs/typeorm';
+import { RoleName } from './enum/role-name.enum';
 
 @Injectable()
 export class RoleService {
@@ -13,7 +14,7 @@ export class RoleService {
     return await this.roleRepository.findOne(id);
   }
 
-  public async getByName(name: string) {
+  public async getByName(name: RoleName) {
     return await this.roleRepository.findOne({ name });
   }
 }
