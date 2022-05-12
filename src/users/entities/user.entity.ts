@@ -16,7 +16,7 @@ import { Token } from '../../tokens/entities/token.entity';
 import { Exclude } from 'class-transformer';
 import { Order } from '../../order/entities/order.entity';
 import { SalesContract } from '../../sales-contract/entities/sales-contract.entity';
-import { Role } from './role.entity';
+import { Role } from '../../role/entities/role.entity';
 
 @Entity({ name: 'users' })
 export class User {
