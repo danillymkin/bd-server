@@ -7,7 +7,7 @@ import {
   UserService,
 } from '../../users/interfaces/user-service.interface';
 import { RoleService } from '../../role/role.service';
-import { RoleName } from '../../role/enum/role-name.enum';
+import { RoleName } from '../../role/enums/role-name.enum';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {

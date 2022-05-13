@@ -1,7 +1,7 @@
 import { RegisterUserDto } from '../../../auth/dto/register-user.dto';
 import { User } from '../../entities/user.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { RoleName } from '../../../role/enum/role-name.enum';
+import { RoleName } from '../../../role/enums/role-name.enum';
 
 export const USER_REPOSITORY_TOKEN = getRepositoryToken(User);
 

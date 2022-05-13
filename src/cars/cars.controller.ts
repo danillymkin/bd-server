@@ -21,7 +21,7 @@ import { AllAndCount } from '../types/all-and-count.type';
 import { onlyImagesFilter } from '../files/filters/only-images.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { RoleName } from '../role/enum/role-name.enum';
+import { RoleName } from '../role/enums/role-name.enum';
 
 @ApiTags('Автомобили')
 @Controller('cars')

@@ -16,7 +16,7 @@ import { Note } from './entities/note.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 import { Auth } from '../auth/decorators/auth.decorator';
-import { RoleName } from '../role/enum/role-name.enum';
+import { RoleName } from '../role/enums/role-name.enum';
 
 @ApiTags('Заметки')
 @Controller('notes')
