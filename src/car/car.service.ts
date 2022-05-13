@@ -13,39 +13,43 @@ import {
   FILE_SERVICE,
   FileService,
 } from '../files/interfaces/file-service.interface';
+import { CarService } from './interfaces/car-service.interface';
 
 @Injectable()
-export class CarsService {
+export class CarServiceImpl implements CarService {
   constructor(
     @InjectRepository(Car) private carRepository: Repository<Car>,
     @Inject(IMAGE_SERVICE) private imageService: ImageService,
     @Inject(FILE_SERVICE) private fileService: FileService,
   ) {}
 
-  async getAll(): Promise<AllAndCount<Car>> {
+  public async getAll(): Promise<AllAndCount<Car>> {
     return await this.carRepository.findAndCount({ relations: ['images'] });
   }
 
-  async getById(id: number): Promise<Car> {
+  public async getById(id: number): Promise<Car> {
     return await this.carRepository.findOne(id, { relations: ['images'] });
   }
 
-  async create(createCarDto: CreateCarDto): Promise<Car> {
+  public async create(createCarDto: CreateCarDto): Promise<Car> {
     const car = this.carRepository.create(createCarDto);
     await this.carRepository.save(car);
     return await this.carRepository.findOne(car.id);
   }
 
-  async update(id: number, updateCarDto: UpdateCarDto): Promise<Car> {
+  public async update(id: number, updateCarDto: UpdateCarDto): Promise<Car> {
     await this.carRepository.update({ id }, updateCarDto);
     return await this.carRepository.findOne(id);
   }
 
-  async remove(id: number): Promise<DeleteResult> {
+  public async remove(id: number): Promise<DeleteResult> {
     return await this.carRepository.delete(id);
   }
 
-  async addImages(carId: number, imageFiles: Array<Express.Multer.File>) {
+  public async addImages(
+    carId: number,
+    imageFiles: Array<Express.Multer.File>,
+  ): Promise<void | BadRequestException> {
     try {
       imageFiles.map(async (imageFile: Express.Multer.File) => {
         const fileName = await this.fileService.createFile(imageFile);

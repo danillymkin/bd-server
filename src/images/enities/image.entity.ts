@@ -7,7 +7,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Car } from '../../cars/entities/car.entity';
+import { Car } from '../../car/entities/car.entity';
 
 @Entity({ name: 'images' })
 export class Image {

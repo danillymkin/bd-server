@@ -5,7 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Car } from '../../cars/entities/car.entity';
+import { Car } from '../../car/entities/car.entity';
 import { Order } from './order.entity';
 
 @Entity({ name: 'car_to_order' })

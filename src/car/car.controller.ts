@@ -1,16 +1,17 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
   Get,
   HttpStatus,
+  Inject,
   Param,
   Patch,
   Post,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
-import { CarsService } from './cars.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FindOneParamsDto } from '../validation/dto/find-one-params.dto';
 import { DeleteResult } from 'typeorm';
@@ -22,24 +23,25 @@ import { onlyImagesFilter } from '../files/filters/only-images.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { RoleName } from '../role/enums/role-name.enum';
+import { CAR_SERVICE, CarService } from './interfaces/car-service.interface';
 
 @ApiTags('Автомобили')
 @Controller('cars')
-export class CarsController {
-  constructor(private carsService: CarsService) {}
+export class CarController {
+  constructor(@Inject(CAR_SERVICE) private carService: CarService) {}
 
   @ApiOperation({ summary: 'Получить все автомобили' })
   @ApiResponse({ status: HttpStatus.OK, type: [Car] })
   @Get()
   getAll(): Promise<AllAndCount<Car>> {
-    return this.carsService.getAll();
+    return this.carService.getAll();
   }
 
   @ApiOperation({ summary: 'Получить автомобиль по id' })
   @ApiResponse({ status: HttpStatus.OK, type: Car })
   @Get(':id')
   getById(@Param() { id }: FindOneParamsDto): Promise<Car> {
-    return this.carsService.getById(id);
+    return this.carService.getById(id);
   }
 
   @ApiOperation({ summary: 'Создать автомобиль' })
@@ -47,7 +49,7 @@ export class CarsController {
   @Auth(RoleName.ADMIN)
   @Post()
   create(@Body() createCarDto: CreateCarDto): Promise<Car> {
-    return this.carsService.create(createCarDto);
+    return this.carService.create(createCarDto);
   }
 
   @ApiOperation({ summary: 'Обновить автомобиль' })
@@ -58,7 +60,7 @@ export class CarsController {
     @Param() { id }: FindOneParamsDto,
     @Body() updateCarDto: UpdateCarDto,
   ): Promise<Car> {
-    return this.carsService.update(id, updateCarDto);
+    return this.carService.update(id, updateCarDto);
   }
 
   @ApiOperation({ summary: 'Удалить автомобиль' })
@@ -66,7 +68,7 @@ export class CarsController {
   @Auth(RoleName.ADMIN)
   @Delete(':id')
   remove(@Param() { id }: FindOneParamsDto): Promise<DeleteResult> {
-    return this.carsService.remove(id);
+    return this.carService.remove(id);
   }
 
   @UseInterceptors(
@@ -79,7 +81,7 @@ export class CarsController {
   addImages(
     @Param() { id }: FindOneParamsDto,
     @UploadedFiles() images: Array<Express.Multer.File>,
-  ) {
-    return this.carsService.addImages(id, images);
+  ): Promise<void | BadRequestException> {
+    return this.carService.addImages(id, images);
   }
 }
