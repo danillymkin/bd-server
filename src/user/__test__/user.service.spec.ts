@@ -5,23 +5,35 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { BadRequestException } from '@nestjs/common';
+import { mockUser } from './__mocks__/user.mock';
 import {
-  mockRegisterUserDto,
-  mockUser,
-  USER_REPOSITORY_TOKEN,
-} from './__mocks__';
-import { UserService } from '../interfaces/user-service.interface';
+  USER_SERVICE,
+  UserService,
+} from '../interfaces/user-service.interface';
+import { mockRegisterUserDto } from './__mocks__/register-user-dto.mock';
+import { USER_REPOSITORY_TOKEN } from './__mocks__/constants';
+import { mockRole } from '../../role/__test__/__mocks__/role.mock';
+import { ROLE_SERVICE } from '../../role/interfaces/role-service.interface';
 
-describe('UsersService', () => {
+describe('UserService', () => {
   let service: UserService;
-  let usersRepository: Repository<User>;
+  let userRepository: Repository<User>;
   let configService: ConfigService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
       providers: [
-        UserServiceImpl,
+        {
+          useClass: UserServiceImpl,
+          provide: USER_SERVICE,
+        },
+        {
+          useValue: {
+            getByName: jest.fn(() => Promise.resolve(mockRole)),
+          },
+          provide: ROLE_SERVICE,
+        },
         {
           provide: USER_REPOSITORY_TOKEN,
           useValue: {
@@ -34,9 +46,9 @@ describe('UsersService', () => {
       ],
     }).compile();
 
-    service = module.get<UserService>(UserServiceImpl);
+    service = module.get<UserService>(USER_SERVICE);
     configService = module.get<ConfigService>(ConfigService);
-    usersRepository = module.get<Repository<User>>(USER_REPOSITORY_TOKEN);
+    userRepository = module.get<Repository<User>>(USER_REPOSITORY_TOKEN);
   });
 
   it('should be defined', () => {
@@ -44,20 +56,20 @@ describe('UsersService', () => {
   });
 
   it('usersRepository should be defined', () => {
-    expect(usersRepository).toBeDefined();
+    expect(userRepository).toBeDefined();
   });
 
   describe('getById', () => {
     it('should call usersRepository.findOne with correct params', async () => {
       await service.getById(mockUser.id);
 
-      expect(usersRepository.findOne).toHaveBeenCalledWith(mockUser.id);
+      expect(userRepository.findOne).toHaveBeenCalledWith(mockUser.id);
     });
 
     it('should return an user', async () => {
       await service.getById(mockUser.id);
 
-      expect(usersRepository.findOne).toHaveReturnedWith(mockUser);
+      expect(userRepository.findOne).toHaveReturnedWith(mockUser);
     });
   });
 
@@ -65,7 +77,7 @@ describe('UsersService', () => {
     it('should call usersRepository.findOne with correct params', async () => {
       await service.getByEmail(mockUser.email);
 
-      expect(usersRepository.findOne).toHaveBeenCalledWith({
+      expect(userRepository.findOne).toHaveBeenCalledWith({
         email: mockUser.email,
       });
     });
@@ -73,7 +85,7 @@ describe('UsersService', () => {
     it('should return an user', async () => {
       await service.getByEmail(mockUser.email);
 
-      expect(usersRepository.findOne).toHaveReturnedWith(mockUser);
+      expect(userRepository.findOne).toHaveReturnedWith(mockUser);
     });
   });
 
@@ -91,18 +103,19 @@ describe('UsersService', () => {
     it('should call usersRepository.create with correct params', async () => {
       await service.create(mockRegisterUserDto);
 
-      expect(usersRepository.create).toHaveBeenCalledWith({
+      expect(userRepository.create).toHaveBeenCalledWith({
         ...mockRegisterUserDto,
+        roles: [mockRole],
         password: 'hash123',
       });
     });
 
     it('should call usersRepository.save return correct a new user', async () => {
-      jest.spyOn(usersRepository, 'create').mockReturnValueOnce(mockUser);
+      jest.spyOn(userRepository, 'create').mockReturnValueOnce(mockUser);
 
       await service.create(mockRegisterUserDto);
 
-      expect(usersRepository.save).toHaveBeenCalledWith(mockUser);
+      expect(userRepository.save).toHaveBeenCalledWith(mockUser);
     });
   });
 
@@ -117,7 +130,7 @@ describe('UsersService', () => {
         mockRegisterUserDto.password,
       );
 
-      expect(usersRepository.findOne).toHaveBeenCalledWith({
+      expect(userRepository.findOne).toHaveBeenCalledWith({
         email: mockUser.email,
       });
     });
@@ -171,7 +184,7 @@ describe('UsersService', () => {
     it('should search an user by activation link with correctly params', async () => {
       await service.activate(mockUser.activationLink, responseMock);
 
-      expect(usersRepository.findOneOrFail).toHaveBeenCalledWith({
+      expect(userRepository.findOneOrFail).toHaveBeenCalledWith({
         activationLink: mockUser.activationLink,
       });
     });
@@ -179,12 +192,12 @@ describe('UsersService', () => {
     it('should search an user by activation link successfully', async () => {
       await service.activate(mockUser.activationLink, responseMock);
 
-      expect(usersRepository.findOneOrFail).toReturnWith(mockUser);
+      expect(userRepository.findOneOrFail).toReturnWith(mockUser);
     });
 
     it('should search an user by activation link failed', async () => {
       jest
-        .spyOn(usersRepository, 'findOneOrFail')
+        .spyOn(userRepository, 'findOneOrFail')
         .mockImplementationOnce(() => Promise.reject(mockUser));
 
       await expect(
@@ -195,7 +208,7 @@ describe('UsersService', () => {
     it('should usersRepository.save update isActivated property', async () => {
       await service.activate(mockUser.activationLink, responseMock);
 
-      expect(usersRepository.save).toHaveBeenCalledWith({
+      expect(userRepository.save).toHaveBeenCalledWith({
         ...mockUser,
         isActivated: true,
       });

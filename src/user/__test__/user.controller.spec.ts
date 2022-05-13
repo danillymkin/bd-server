@@ -1,13 +1,16 @@
 import { UserController } from '../user.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
-import { mockUser, USER_REPOSITORY_TOKEN } from './__mocks__';
-import { UserServiceImpl } from '../user.service';
-import { USER_SERVICE } from '../interfaces/user-service.interface';
+import { mockUser } from './__mocks__/user.mock';
+import {
+  USER_SERVICE,
+  UserService,
+} from '../interfaces/user-service.interface';
+import { USER_REPOSITORY_TOKEN } from './__mocks__/constants';
 
 describe('UsersController', () => {
   let controller: UserController;
-  let service: UserServiceImpl;
+  let service: UserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -29,7 +32,7 @@ describe('UsersController', () => {
     }).compile();
 
     controller = module.get<UserController>(UserController);
-    service = module.get<UserServiceImpl>('USERS_SERVICE');
+    service = module.get<UserService>(USER_SERVICE);
   });
 
   it('should be defined', () => {
