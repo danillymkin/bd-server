@@ -6,9 +6,15 @@ import { TokenModule } from '../token/token.module';
 import { UserController } from './user.controller';
 import { ConfigModule } from '@nestjs/config';
 import { USER_SERVICE } from './interfaces/user-service.interface';
+import { RoleModule } from '../role/role.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), TokenModule, ConfigModule],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    TokenModule,
+    RoleModule,
+    ConfigModule,
+  ],
   providers: [
     {
       useClass: UserServiceImpl,

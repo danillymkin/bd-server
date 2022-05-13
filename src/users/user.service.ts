@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
@@ -8,11 +8,17 @@ import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { instanceToPlain } from 'class-transformer';
 import { UserService } from './interfaces/user-service.interface';
+import {
+  ROLE_SERVICE,
+  RoleService,
+} from '../role/interfaces/role-service.interface';
+import { RoleName } from '../role/enums/role-name.enum';
 
 @Injectable()
 export class UserServiceImpl implements UserService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
+    @Inject(ROLE_SERVICE) private roleService: RoleService,
     private configService: ConfigService,
   ) {}
 
@@ -26,8 +32,10 @@ export class UserServiceImpl implements UserService {
 
   public async create(registerUserDto: RegisterUserDto): Promise<User> {
     const hashPassword = await this.getHashedPassword(registerUserDto.password);
+    const role = await this.roleService.getByName(RoleName.USER);
     const user = this.userRepository.create({
       ...registerUserDto,
+      roles: [role],
       password: hashPassword,
     });
     return await this.userRepository.save(user);
