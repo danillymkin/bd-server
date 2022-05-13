@@ -15,7 +15,6 @@ import {
 } from './utils/constants';
 import * as uuid from 'uuid';
 import { ConfigService } from '@nestjs/config';
-import { MailService } from '../mail/mail.service';
 import { TokenPayload } from '../token/interfaces/token-payload.interface';
 import {
   USER_SERVICE,
@@ -26,15 +25,19 @@ import {
   TOKEN_SERVICE,
   TokenService,
 } from '../token/interfaces/token-service.interface';
+import {
+  MAIL_SERVICE,
+  MailService,
+} from '../mail/interfaces/mail-service.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(USER_SERVICE) private userService: UserService,
     @Inject(TOKEN_SERVICE) private tokenService: TokenService,
+    @Inject(MAIL_SERVICE) private mailService: MailService,
     private configService: ConfigService,
     private jwtService: JwtService,
-    private mailService: MailService,
   ) {}
 
   public async login(
