@@ -8,11 +8,11 @@ import { AllAndCount } from '../types/all-and-count.type';
 import {
   IMAGE_SERVICE,
   ImageService,
-} from '../images/interfaces/image-service.interface';
+} from '../image/interfaces/image-service.interface';
 import {
   FILE_SERVICE,
   FileService,
-} from '../files/interfaces/file-service.interface';
+} from '../file/interfaces/file-service.interface';
 import { CarService } from './interfaces/car-service.interface';
 
 @Injectable()

@@ -1,4 +1,4 @@
 import { Controller } from '@nestjs/common';
 
 @Controller('images')
-export class ImagesController {}
+export class ImageController {}

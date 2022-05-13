@@ -19,7 +19,7 @@ import { Car } from './entities/car.entity';
 import { CreateCarDto } from './dto/create-car.dto';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { AllAndCount } from '../types/all-and-count.type';
-import { onlyImagesFilter } from '../files/filters/only-images.filter';
+import { onlyImagesFilter } from '../file/filters/only-images.filter';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { RoleName } from '../role/enums/role-name.enum';

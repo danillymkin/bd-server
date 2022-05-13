@@ -1,5 +1,5 @@
 import { CreateImageDto } from '../dto/create-image.dto';
-import { Image } from '../enities/image.entity';
+import { Image } from '../entities/image.entity';
 
 export const IMAGE_SERVICE = 'IMAGE_SERVICE';
 

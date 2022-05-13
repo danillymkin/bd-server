@@ -1,4 +1,4 @@
-import { User } from '../../users/entities/user.entity';
+import { User } from '../../user/entities/user.entity';
 import { Token } from '../entities/token.entity';
 import { TokenPayload } from './token-payload.interface';
 

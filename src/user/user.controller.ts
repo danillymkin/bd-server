@@ -15,7 +15,7 @@ import { USER_SERVICE, UserService } from './interfaces/user-service.interface';
 import { RoleName } from '../role/enums/role-name.enum';
 
 @ApiTags('Пользователи')
-@Controller('users')
+@Controller('user')
 export class UserController {
   constructor(@Inject(USER_SERVICE) private userService: UserService) {}
 

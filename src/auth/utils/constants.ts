@@ -5,4 +5,4 @@ export const REFRESH_TOKEN_COOKIE_NAME = 'refreshToken';
 
 export const ROLES_KEY = 'roles';
 
-export const ACTIVATE_URL = '/api/users/activate/';
+export const ACTIVATE_URL = '/api/user/activate/';

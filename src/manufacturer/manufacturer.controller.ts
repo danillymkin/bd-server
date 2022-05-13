@@ -18,7 +18,7 @@ import { Manufacturer } from './entities/manufacturer.entity';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dto/update-manufacturer.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { onlyImagesFilter } from '../files/filters/only-images.filter';
+import { onlyImagesFilter } from '../file/filters/only-images.filter';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { RoleName } from '../role/enums/role-name.enum';
 import {

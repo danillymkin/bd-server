@@ -8,7 +8,7 @@ import { ManufacturerService } from './interfaces/manufacturer-service.interface
 import {
   FILE_SERVICE,
   FileService,
-} from '../files/interfaces/file-service.interface';
+} from '../file/interfaces/file-service.interface';
 
 @Injectable()
 export class ManufacturerServiceImpl implements ManufacturerService {

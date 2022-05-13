@@ -14,12 +14,12 @@ import { Response } from 'express';
 import { LocalAuthGuard } from './guards/local-auth.guard';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { REFRESH_TOKEN_COOKIE_NAME } from './utils/constants';
-import { User } from '../users/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { UserData } from './decorators/user-data.decorator';
 import { RefreshToken } from './decorators/refresh-token.decorator';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
-import { UserAndToken } from '../users/types/user-and-token.type';
+import { UserAndToken } from '../user/types/user-and-token.type';
 import { AUTH_SERVICE, AuthService } from './interfaces/auth-service.interface';
 
 @ApiTags('Аутентификация')

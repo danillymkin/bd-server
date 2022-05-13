@@ -3,12 +3,12 @@ import { CarController } from './car.controller';
 import { CarServiceImpl } from './car.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Car } from './entities/car.entity';
-import { FileModule } from '../files/file.module';
-import { ImagesModule } from '../images/images.module';
+import { FileModule } from '../file/file.module';
+import { ImageModule } from '../image/image.module';
 import { CAR_SERVICE } from './interfaces/car-service.interface';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Car]), FileModule, ImagesModule],
+  imports: [TypeOrmModule.forFeature([Car]), FileModule, ImageModule],
   controllers: [CarController],
   providers: [
     {

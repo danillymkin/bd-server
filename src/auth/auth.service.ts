@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { User } from '../users/entities/user.entity';
+import { User } from '../user/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from './dto/register-user.dto';
 import {
@@ -19,8 +19,8 @@ import { TokenPayload } from '../token/interfaces/token-payload.interface';
 import {
   USER_SERVICE,
   UserService,
-} from '../users/interfaces/user-service.interface';
-import { UserAndToken } from '../users/types/user-and-token.type';
+} from '../user/interfaces/user-service.interface';
+import { UserAndToken } from '../user/types/user-and-token.type';
 import {
   TOKEN_SERVICE,
   TokenService,

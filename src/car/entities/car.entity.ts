@@ -16,7 +16,7 @@ import {
   CarFuel,
   CarTransmission,
 } from '../utils/enums';
-import { Image } from '../../images/enities/image.entity';
+import { Image } from '../../image/entities/image.entity';
 import { Consignment } from '../../consignment/entities/consignment.entity';
 import { CarToOrder } from '../../order/entities/car-to-order.entity';
 

@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import {
   USER_SERVICE,
   UserService,
-} from '../../users/interfaces/user-service.interface';
+} from '../../user/interfaces/user-service.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

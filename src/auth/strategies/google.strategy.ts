@@ -5,7 +5,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import {
   USER_SERVICE,
   UserService,
-} from '../../users/interfaces/user-service.interface';
+} from '../../user/interfaces/user-service.interface';
 import { RoleName } from '../../role/enums/role-name.enum';
 import {
   ROLE_SERVICE,

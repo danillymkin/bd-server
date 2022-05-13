@@ -46,6 +46,6 @@ describe('UserController (E2E)', () => {
   });
 
   it('should get an user and return 200', () => {
-    return request(app.getHttpServer()).get('/api/users/1').expect(200);
+    return request(app.getHttpServer()).get('/api/user/1').expect(200);
   });
 });
