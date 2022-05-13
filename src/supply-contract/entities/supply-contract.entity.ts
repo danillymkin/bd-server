@@ -6,7 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Manufacturer } from '../../manufacturers/entities/manufacturer.entity';
+import { Manufacturer } from '../../manufacturer/entities/manufacturer.entity';
 import { Consignment } from '../../consignment/entities/consignment.entity';
 
 @Entity({ name: 'supply_contracts' })

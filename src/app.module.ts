@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CarsModule } from './cars/cars.module';
-import { ManufacturersModule } from './manufacturers/manufacturers.module';
+import { ManufacturerModule } from './manufacturer/manufacturer.module';
 import { NoteModule } from './note/note.module';
 import { ImagesModule } from './images/images.module';
 import { FilesModule } from './files/files.module';
@@ -85,7 +85,7 @@ import { RoleModule } from './role/role.module';
       },
     }),
     CarsModule,
-    ManufacturersModule,
+    ManufacturerModule,
     NoteModule,
     ImagesModule,
     FilesModule,

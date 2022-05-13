@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   HttpStatus,
+  Inject,
   Param,
   Patch,
   Post,
@@ -13,7 +14,6 @@ import {
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { FindOneParamsDto } from '../validation/dto/find-one-params.dto';
 import { DeleteResult } from 'typeorm';
-import { ManufacturersService } from './manufacturers.service';
 import { Manufacturer } from './entities/manufacturer.entity';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dto/update-manufacturer.dto';
@@ -21,11 +21,18 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { onlyImagesFilter } from '../files/filters/only-images.filter';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { RoleName } from '../role/enums/role-name.enum';
+import {
+  MANUFACTURER_SERVICE,
+  ManufacturerService,
+} from './interfaces/manufacturer-service.interface';
 
 @ApiTags('Производители')
-@Controller('manufacturers')
-export class ManufacturersController {
-  constructor(private manufacturersService: ManufacturersService) {}
+@Controller('manufacturer')
+export class ManufacturerController {
+  constructor(
+    @Inject(MANUFACTURER_SERVICE)
+    private manufacturersService: ManufacturerService,
+  ) {}
 
   @ApiOperation({ summary: 'Получить всех производителей' })
   @ApiResponse({ status: HttpStatus.OK, type: [Manufacturer] })

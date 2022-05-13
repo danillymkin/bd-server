@@ -5,33 +5,34 @@ import { DeleteResult, Repository } from 'typeorm';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dto/update-manufacturer.dto';
 import { FilesService } from '../files/files.service';
+import { ManufacturerService } from './interfaces/manufacturer-service.interface';
 
 @Injectable()
-export class ManufacturersService {
+export class ManufacturerServiceImpl implements ManufacturerService {
   constructor(
     @InjectRepository(Manufacturer)
-    private manufacturersRepository: Repository<Manufacturer>,
+    private manufacturerRepository: Repository<Manufacturer>,
     private filesService: FilesService,
   ) {}
 
-  async getAll(): Promise<Manufacturer[]> {
-    return await this.manufacturersRepository.find();
+  public async getAll(): Promise<Manufacturer[]> {
+    return await this.manufacturerRepository.find();
   }
 
-  async getById(id: number): Promise<Manufacturer> {
-    return await this.manufacturersRepository.findOne(id);
+  public async getById(id: number): Promise<Manufacturer> {
+    return await this.manufacturerRepository.findOne(id);
   }
 
-  async create(
+  public async create(
     createManufacturerDto: CreateManufacturerDto,
   ): Promise<Manufacturer> {
-    const manufacturer = this.manufacturersRepository.create(
+    const manufacturer = this.manufacturerRepository.create(
       createManufacturerDto,
     );
-    return await this.manufacturersRepository.save(manufacturer);
+    return await this.manufacturerRepository.save(manufacturer);
   }
 
-  async update(
+  public async update(
     id: number,
     updateManufacturerDto: UpdateManufacturerDto,
     logo: Express.Multer.File,
@@ -40,15 +41,15 @@ export class ManufacturersService {
     if (logo) {
       fileName = await this.filesService.createFile(logo);
     }
-    const manufacturer = await this.manufacturersRepository.findOne(id);
-    await this.manufacturersRepository.update(
+    const manufacturer = await this.manufacturerRepository.findOne(id);
+    await this.manufacturerRepository.update(
       { id },
       { ...updateManufacturerDto, logo: fileName || manufacturer.logo },
     );
-    return await this.manufacturersRepository.findOne(id);
+    return await this.manufacturerRepository.findOne(id);
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    return await this.manufacturersRepository.delete({ id });
+  public async remove(id: number): Promise<DeleteResult> {
+    return await this.manufacturerRepository.delete({ id });
   }
 }

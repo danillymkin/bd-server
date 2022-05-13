@@ -5,7 +5,7 @@ import {
   ValidatorConstraintInterface,
 } from 'class-validator';
 import { getRepository } from 'typeorm';
-import { Manufacturer } from '../../manufacturers/entities/manufacturer.entity';
+import { Manufacturer } from '../../manufacturer/entities/manufacturer.entity';
 
 @ValidatorConstraint({ async: true })
 export class IsManufacturerExistConstraint

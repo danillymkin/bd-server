@@ -8,7 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Manufacturer } from '../../manufacturers/entities/manufacturer.entity';
+import { Manufacturer } from '../../manufacturer/entities/manufacturer.entity';
 import {
   CarBody,
   CarColor,
