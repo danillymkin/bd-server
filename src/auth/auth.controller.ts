@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   HttpStatus,
+  Inject,
   Post,
   Redirect,
   Req,
@@ -11,7 +12,6 @@ import {
 } from '@nestjs/common';
 import { Response } from 'express';
 import { LocalAuthGuard } from './guards/local-auth.guard';
-import { AuthService } from './auth.service';
 import { RegisterUserDto } from './dto/register-user.dto';
 import { REFRESH_TOKEN_COOKIE_NAME } from './utils/constants';
 import { User } from '../users/entities/user.entity';
@@ -20,11 +20,12 @@ import { UserData } from './decorators/user-data.decorator';
 import { RefreshToken } from './decorators/refresh-token.decorator';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { UserAndToken } from '../users/types/user-and-token.type';
+import { AUTH_SERVICE, AuthService } from './interfaces/auth-service.interface';
 
 @ApiTags('Аутентификация')
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(@Inject(AUTH_SERVICE) private authService: AuthService) {}
 
   @ApiOperation({ summary: 'Войти в аккаунт' })
   @ApiResponse({ status: HttpStatus.OK })

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth.service';
+import { AuthServiceImpl } from './auth.service';
 import { UserModule } from '../users/user.module';
 import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from './strategies/local.strategy';
@@ -11,6 +11,7 @@ import { TokenModule } from '../token/token.module';
 import { MailModule } from '../mail/mail.module';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { RoleModule } from '../role/role.module';
+import { AUTH_SERVICE } from './interfaces/auth-service.interface';
 
 @Module({
   imports: [
@@ -22,7 +23,12 @@ import { RoleModule } from '../role/role.module';
     MailModule,
     JwtModule.register({}),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, GoogleStrategy],
+  providers: [
+    { useClass: AuthServiceImpl, provide: AUTH_SERVICE },
+    LocalStrategy,
+    JwtStrategy,
+    GoogleStrategy,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

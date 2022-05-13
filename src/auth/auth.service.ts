@@ -29,9 +29,10 @@ import {
   MAIL_SERVICE,
   MailService,
 } from '../mail/interfaces/mail-service.interface';
+import { AuthService } from './interfaces/auth-service.interface';
 
 @Injectable()
-export class AuthService {
+export class AuthServiceImpl implements AuthService {
   constructor(
     @Inject(USER_SERVICE) private userService: UserService,
     @Inject(TOKEN_SERVICE) private tokenService: TokenService,
@@ -72,19 +73,6 @@ export class AuthService {
     return await this.login(user, response);
   }
 
-  private async getTokenPayloadFromRefresh(
-    refreshToken: string,
-  ): Promise<TokenPayload> {
-    const tokenPayload = this.tokenService.validate(refreshToken);
-    const tokenFromDB = await this.tokenService.findOne(refreshToken);
-    if (!(tokenPayload && tokenFromDB)) {
-      throw new UnauthorizedException({
-        message: 'Пользователь не авторизован',
-      });
-    }
-    return tokenPayload;
-  }
-
   public async logout(refreshToken: string, request): Promise<void> {
     request.logout();
     await this.tokenService.remove(refreshToken);
@@ -100,6 +88,19 @@ export class AuthService {
     } else {
       return this.registerUserWithGoogle(req, res);
     }
+  }
+
+  private async getTokenPayloadFromRefresh(
+    refreshToken: string,
+  ): Promise<TokenPayload> {
+    const tokenPayload = this.tokenService.validate(refreshToken);
+    const tokenFromDB = await this.tokenService.findOne(refreshToken);
+    if (!(tokenPayload && tokenFromDB)) {
+      throw new UnauthorizedException({
+        message: 'Пользователь не авторизован',
+      });
+    }
+    return tokenPayload;
   }
 
   private async registerUserWithGoogle(req: Request, res: Response) {
