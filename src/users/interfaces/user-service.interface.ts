@@ -1,5 +1,5 @@
-import { User } from './entities/user.entity';
-import { RegisterUserDto } from '../auth/dto/register-user.dto';
+import { User } from '../entities/user.entity';
+import { RegisterUserDto } from '../../auth/dto/register-user.dto';
 import { Response } from 'express';
 
 export const USER_SERVICE = 'USER_SERVICE';

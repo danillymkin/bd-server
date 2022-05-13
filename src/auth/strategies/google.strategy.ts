@@ -2,7 +2,10 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
 import { ConfigService } from '@nestjs/config';
 import { Inject, Injectable } from '@nestjs/common';
-import { USER_SERVICE, UserService } from '../../users/user-service.interface';
+import {
+  USER_SERVICE,
+  UserService,
+} from '../../users/interfaces/user-service.interface';
 import { RoleService } from '../../role/role.service';
 import { RoleName } from '../../role/enum/role-name.enum';
 

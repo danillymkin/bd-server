@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { mockUser, USER_REPOSITORY_TOKEN } from './__mocks__';
 import { UserServiceImpl } from '../user.service';
-import { USER_SERVICE } from '../user-service.interface';
+import { USER_SERVICE } from '../interfaces/user-service.interface';
 
 describe('UsersController', () => {
   let controller: UserController;

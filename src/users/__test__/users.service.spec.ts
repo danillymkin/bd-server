@@ -10,7 +10,7 @@ import {
   mockUser,
   USER_REPOSITORY_TOKEN,
 } from './__mocks__';
-import { UserService } from '../user-service.interface';
+import { UserService } from '../interfaces/user-service.interface';
 
 describe('UsersService', () => {
   let service: UserService;

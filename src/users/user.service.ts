@@ -7,7 +7,7 @@ import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { instanceToPlain } from 'class-transformer';
-import { UserService } from './user-service.interface';
+import { UserService } from './interfaces/user-service.interface';
 
 @Injectable()
 export class UserServiceImpl implements UserService {

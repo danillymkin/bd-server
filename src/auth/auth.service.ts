@@ -18,7 +18,10 @@ import * as uuid from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { MailService } from '../mail/mail.service';
 import { TokenPayload } from '../tokens/interfaces/token-payload.interface';
-import { USER_SERVICE, UserService } from '../users/user-service.interface';
+import {
+  USER_SERVICE,
+  UserService,
+} from '../users/interfaces/user-service.interface';
 import { UserAndToken } from '../users/types/user-and-token.type';
 
 @Injectable()

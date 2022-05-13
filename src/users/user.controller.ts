@@ -11,7 +11,7 @@ import { User } from './entities/user.entity';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth } from '../auth/decorators/auth.decorator';
 import { Response } from 'express';
-import { USER_SERVICE, UserService } from './user-service.interface';
+import { USER_SERVICE, UserService } from './interfaces/user-service.interface';
 import { RoleName } from '../role/enum/role-name.enum';
 
 @ApiTags('Пользователи')
