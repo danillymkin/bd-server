@@ -6,15 +6,18 @@ import {
   USER_SERVICE,
   UserService,
 } from '../../users/interfaces/user-service.interface';
-import { RoleService } from '../../role/role.service';
 import { RoleName } from '../../role/enums/role-name.enum';
+import {
+  ROLE_SERVICE,
+  RoleService,
+} from '../../role/interfaces/role-service.interface';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
-    private configService: ConfigService,
-    private roleService: RoleService,
+    @Inject(ROLE_SERVICE) private roleService: RoleService,
     @Inject(USER_SERVICE) private userService: UserService,
+    private configService: ConfigService,
   ) {
     super({
       clientID: configService.get<string>('OAUTH_GOOGLE_ID'),
