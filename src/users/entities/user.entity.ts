@@ -11,7 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import { Note } from '../../notes/entities/note.entity';
+import { Note } from '../../note/entities/note.entity';
 import { Token } from '../../token/entities/token.entity';
 import { Exclude } from 'class-transformer';
 import { Order } from '../../order/entities/order.entity';

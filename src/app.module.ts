@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CarsModule } from './cars/cars.module';
 import { ManufacturersModule } from './manufacturers/manufacturers.module';
-import { NotesModule } from './notes/notes.module';
+import { NoteModule } from './note/note.module';
 import { ImagesModule } from './images/images.module';
 import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
@@ -86,7 +86,7 @@ import { RoleModule } from './role/role.module';
     }),
     CarsModule,
     ManufacturersModule,
-    NotesModule,
+    NoteModule,
     ImagesModule,
     FilesModule,
     AuthModule,
