@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { UserServiceImpl } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { TokensModule } from '../tokens/tokens.module';
+import { TokenModule } from '../token/token.module';
 import { UserController } from './user.controller';
 import { ConfigModule } from '@nestjs/config';
 import { USER_SERVICE } from './interfaces/user-service.interface';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), TokensModule, ConfigModule],
+  imports: [TypeOrmModule.forFeature([User]), TokenModule, ConfigModule],
   providers: [
     {
       useClass: UserServiceImpl,

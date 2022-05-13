@@ -7,7 +7,7 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { ConfigModule } from '@nestjs/config';
-import { TokensModule } from '../tokens/tokens.module';
+import { TokenModule } from '../token/token.module';
 import { MailModule } from '../mail/mail.module';
 import { GoogleStrategy } from './strategies/google.strategy';
 import { RoleModule } from '../role/role.module';
@@ -17,7 +17,7 @@ import { RoleModule } from '../role/role.module';
     UserModule,
     PassportModule,
     ConfigModule,
-    TokensModule,
+    TokenModule,
     RoleModule,
     MailModule,
     JwtModule.register({}),

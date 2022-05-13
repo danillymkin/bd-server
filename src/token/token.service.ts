@@ -6,11 +6,12 @@ import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/entities/user.entity';
 import { ConfigService } from '@nestjs/config';
 import { TokenPayload } from './interfaces/token-payload.interface';
+import { TokenService } from './interfaces/token-service.interface';
 
 @Injectable()
-export class TokensService {
+export class TokenServiceImpl implements TokenService {
   constructor(
-    @InjectRepository(Token) private tokensRepository: Repository<Token>,
+    @InjectRepository(Token) private tokenRepository: Repository<Token>,
     private configService: ConfigService,
     private jwtService: JwtService,
   ) {}
@@ -29,18 +30,18 @@ export class TokensService {
     const tokenFromDB = await this.findByUserId(userId);
     if (tokenFromDB) {
       tokenFromDB.refreshToken = refreshToken;
-      return await this.tokensRepository.save(tokenFromDB);
+      return await this.tokenRepository.save(tokenFromDB);
     }
-    const token = this.tokensRepository.create({ userId, refreshToken });
-    return await this.tokensRepository.save(token);
+    const token = this.tokenRepository.create({ userId, refreshToken });
+    return await this.tokenRepository.save(token);
   }
 
   public async remove(refreshToken: string): Promise<void> {
-    await this.tokensRepository.delete({ refreshToken });
+    await this.tokenRepository.delete({ refreshToken });
   }
 
   public async findOne(refreshToken: string): Promise<Token> {
-    return await this.tokensRepository.findOne({ refreshToken });
+    return await this.tokenRepository.findOne({ refreshToken });
   }
 
   public createPayload(user: User): TokenPayload {
@@ -59,6 +60,6 @@ export class TokensService {
   }
 
   private async findByUserId(userId: number): Promise<Token> {
-    return await this.tokensRepository.findOne({ userId });
+    return await this.tokenRepository.findOne({ userId });
   }
 }

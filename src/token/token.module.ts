@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TokensService } from './tokens.service';
+import { TokenServiceImpl } from './token.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Token } from './entities/token.entity';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import { TOKEN_SERVICE } from './interfaces/token-service.interface';
 
 @Module({
   imports: [
@@ -11,7 +12,17 @@ import { ConfigModule } from '@nestjs/config';
     JwtModule.register({}),
     ConfigModule,
   ],
-  providers: [TokensService],
-  exports: [TokensService],
+  providers: [
+    {
+      useClass: TokenServiceImpl,
+      provide: TOKEN_SERVICE,
+    },
+  ],
+  exports: [
+    {
+      useClass: TokenServiceImpl,
+      provide: TOKEN_SERVICE,
+    },
+  ],
 })
-export class TokensModule {}
+export class TokenModule {}

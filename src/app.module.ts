@@ -10,7 +10,7 @@ import { ImagesModule } from './images/images.module';
 import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
-import { TokensModule } from './tokens/tokens.module';
+import { TokenModule } from './token/token.module';
 import { MailModule } from './mail/mail.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -91,7 +91,7 @@ import { RoleModule } from './role/role.module';
     FilesModule,
     AuthModule,
     UserModule,
-    TokensModule,
+    TokenModule,
     MailModule,
     ConsignmentModule,
     OrderModule,

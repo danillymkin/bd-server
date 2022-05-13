@@ -8,7 +8,6 @@ import { Request, Response } from 'express';
 import { User } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from './dto/register-user.dto';
-import { TokensService } from '../tokens/tokens.service';
 import {
   ACTIVATE_URL,
   MAX_AGE_REFRESH_TOKEN,
@@ -17,18 +16,22 @@ import {
 import * as uuid from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { MailService } from '../mail/mail.service';
-import { TokenPayload } from '../tokens/interfaces/token-payload.interface';
+import { TokenPayload } from '../token/interfaces/token-payload.interface';
 import {
   USER_SERVICE,
   UserService,
 } from '../users/interfaces/user-service.interface';
 import { UserAndToken } from '../users/types/user-and-token.type';
+import {
+  TOKEN_SERVICE,
+  TokenService,
+} from '../token/interfaces/token-service.interface';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(USER_SERVICE) private userService: UserService,
-    private tokensService: TokensService,
+    @Inject(TOKEN_SERVICE) private tokenService: TokenService,
     private configService: ConfigService,
     private jwtService: JwtService,
     private mailService: MailService,
@@ -69,8 +72,8 @@ export class AuthService {
   private async getTokenPayloadFromRefresh(
     refreshToken: string,
   ): Promise<TokenPayload> {
-    const tokenPayload = this.tokensService.validate(refreshToken);
-    const tokenFromDB = await this.tokensService.findOne(refreshToken);
+    const tokenPayload = this.tokenService.validate(refreshToken);
+    const tokenFromDB = await this.tokenService.findOne(refreshToken);
     if (!(tokenPayload && tokenFromDB)) {
       throw new UnauthorizedException({
         message: 'Пользователь не авторизован',
@@ -81,7 +84,7 @@ export class AuthService {
 
   public async logout(refreshToken: string, request): Promise<void> {
     request.logout();
-    await this.tokensService.remove(refreshToken);
+    await this.tokenService.remove(refreshToken);
   }
 
   public async googleLogin(req: Request, res: Response) {
@@ -145,13 +148,13 @@ export class AuthService {
   }
 
   private async setRefreshToken(user: User, response: Response) {
-    const refreshToken = await this.tokensService.generate(user);
-    await this.tokensService.save(user.id, refreshToken);
+    const refreshToken = await this.tokenService.generate(user);
+    await this.tokenService.save(user.id, refreshToken);
     this.setRefreshTokenInCookie(response, refreshToken);
   }
 
   private getAccessToken(user: User): string {
-    const payload = this.tokensService.createPayload(user);
+    const payload = this.tokenService.createPayload(user);
     const secret = this.configService.get<string>('JWT_ACCESS_SECRET');
     const expiresIn = this.configService.get<string>('JWT_ACCESS_EXPIRES_IN');
     return this.jwtService.sign(payload, {
