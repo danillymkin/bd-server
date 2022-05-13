@@ -12,25 +12,25 @@ import { UserService } from './interfaces/user-service.interface';
 @Injectable()
 export class UserServiceImpl implements UserService {
   constructor(
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    @InjectRepository(User) private userRepository: Repository<User>,
     private configService: ConfigService,
   ) {}
 
   public async getById(id: number): Promise<User> {
-    return await this.usersRepository.findOne(id);
+    return await this.userRepository.findOne(id);
   }
 
   public async getByEmail(email: string): Promise<User> {
-    return await this.usersRepository.findOne({ email });
+    return await this.userRepository.findOne({ email });
   }
 
   public async create(registerUserDto: RegisterUserDto): Promise<User> {
     const hashPassword = await this.getHashedPassword(registerUserDto.password);
-    const user = this.usersRepository.create({
+    const user = this.userRepository.create({
       ...registerUserDto,
       password: hashPassword,
     });
-    return await this.usersRepository.save(user);
+    return await this.userRepository.save(user);
   }
 
   public async activate(
@@ -66,7 +66,7 @@ export class UserServiceImpl implements UserService {
   private async activateUserByLink(activationLink: string): Promise<void> {
     try {
       const user = await this.getByActivationLink(activationLink);
-      await this.usersRepository.save({ ...user, isActivated: true });
+      await this.userRepository.save({ ...user, isActivated: true });
     } catch (e) {
       throw new BadRequestException({
         message: 'Некорректная ссылка активации',
@@ -80,6 +80,6 @@ export class UserServiceImpl implements UserService {
   }
 
   private async getByActivationLink(activationLink: string): Promise<User> {
-    return await this.usersRepository.findOneOrFail({ activationLink });
+    return await this.userRepository.findOneOrFail({ activationLink });
   }
 }
