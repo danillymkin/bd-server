@@ -3,9 +3,10 @@ import { Express } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as uuid from 'uuid';
+import { FileService } from './interfaces/file-service.interface';
 
 @Injectable()
-export class FilesService {
+export class FileServiceImpl implements FileService {
   public async createFile(file: Express.Multer.File): Promise<string> {
     try {
       const fileExtension = path.extname(file.originalname);

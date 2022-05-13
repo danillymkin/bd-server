@@ -1,18 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Manufacturer } from './entities/manufacturer.entity';
 import { DeleteResult, Repository } from 'typeorm';
 import { CreateManufacturerDto } from './dto/create-manufacturer.dto';
 import { UpdateManufacturerDto } from './dto/update-manufacturer.dto';
-import { FilesService } from '../files/files.service';
 import { ManufacturerService } from './interfaces/manufacturer-service.interface';
+import {
+  FILE_SERVICE,
+  FileService,
+} from '../files/interfaces/file-service.interface';
 
 @Injectable()
 export class ManufacturerServiceImpl implements ManufacturerService {
   constructor(
     @InjectRepository(Manufacturer)
     private manufacturerRepository: Repository<Manufacturer>,
-    private filesService: FilesService,
+    @Inject(FILE_SERVICE) private fileService: FileService,
   ) {}
 
   public async getAll(): Promise<Manufacturer[]> {
@@ -39,7 +42,7 @@ export class ManufacturerServiceImpl implements ManufacturerService {
   ): Promise<Manufacturer> {
     let fileName: string | null = null;
     if (logo) {
-      fileName = await this.filesService.createFile(logo);
+      fileName = await this.fileService.createFile(logo);
     }
     const manufacturer = await this.manufacturerRepository.findOne(id);
     await this.manufacturerRepository.update(

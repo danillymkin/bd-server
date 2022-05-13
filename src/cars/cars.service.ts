@@ -5,18 +5,21 @@ import { Car } from './entities/car.entity';
 import { UpdateCarDto } from './dto/update-car.dto';
 import { CreateCarDto } from './dto/create-car.dto';
 import { AllAndCount } from '../types/all-and-count.type';
-import { FilesService } from '../files/files.service';
 import {
   IMAGE_SERVICE,
   ImageService,
 } from '../images/interfaces/image-service.interface';
+import {
+  FILE_SERVICE,
+  FileService,
+} from '../files/interfaces/file-service.interface';
 
 @Injectable()
 export class CarsService {
   constructor(
     @InjectRepository(Car) private carRepository: Repository<Car>,
     @Inject(IMAGE_SERVICE) private imageService: ImageService,
-    private filesService: FilesService,
+    @Inject(FILE_SERVICE) private fileService: FileService,
   ) {}
 
   async getAll(): Promise<AllAndCount<Car>> {
@@ -45,7 +48,7 @@ export class CarsService {
   async addImages(carId: number, imageFiles: Array<Express.Multer.File>) {
     try {
       imageFiles.map(async (imageFile: Express.Multer.File) => {
-        const fileName = await this.filesService.createFile(imageFile);
+        const fileName = await this.fileService.createFile(imageFile);
         await this.imageService.create({ carId, fileName });
       });
     } catch (e) {

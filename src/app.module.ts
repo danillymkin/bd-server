@@ -7,7 +7,7 @@ import { CarsModule } from './cars/cars.module';
 import { ManufacturerModule } from './manufacturer/manufacturer.module';
 import { NoteModule } from './note/note.module';
 import { ImagesModule } from './images/images.module';
-import { FilesModule } from './files/files.module';
+import { FileModule } from './files/file.module';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
 import { TokenModule } from './token/token.module';
@@ -88,7 +88,7 @@ import { RoleModule } from './role/role.module';
     ManufacturerModule,
     NoteModule,
     ImagesModule,
-    FilesModule,
+    FileModule,
     AuthModule,
     UserModule,
     TokenModule,
