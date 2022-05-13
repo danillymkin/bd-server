@@ -6,7 +6,7 @@ import { RegisterUserDto } from '../src/auth/dto/register-user.dto';
 import { JwtAuthGuard } from '../src/auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../src/auth/guards/roles.guard';
 
-describe('UsersController (E2E)', () => {
+describe('UserController (E2E)', () => {
   let app: INestApplication;
 
   beforeAll(async () => {

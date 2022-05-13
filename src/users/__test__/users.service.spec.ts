@@ -1,4 +1,4 @@
-import { UsersService } from '../users.service';
+import { UserServiceImpl } from '../user.service';
 import { Test, TestingModule } from '@nestjs/testing';
 import { User } from '../entities/user.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -10,9 +10,10 @@ import {
   mockUser,
   USER_REPOSITORY_TOKEN,
 } from './__mocks__';
+import { UserService } from '../user-service.interface';
 
 describe('UsersService', () => {
-  let service: UsersService;
+  let service: UserService;
   let usersRepository: Repository<User>;
   let configService: ConfigService;
 
@@ -20,7 +21,7 @@ describe('UsersService', () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
       providers: [
-        UsersService,
+        UserServiceImpl,
         {
           provide: USER_REPOSITORY_TOKEN,
           useValue: {
@@ -33,7 +34,7 @@ describe('UsersService', () => {
       ],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    service = module.get<UserService>(UserServiceImpl);
     configService = module.get<ConfigService>(ConfigService);
     usersRepository = module.get<Repository<User>>(USER_REPOSITORY_TOKEN);
   });

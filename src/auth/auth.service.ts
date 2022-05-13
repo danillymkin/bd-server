@@ -5,7 +5,6 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { UsersService } from '../users/users.service';
 import { User } from '../users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { RegisterUserDto } from './dto/register-user.dto';
@@ -19,13 +18,13 @@ import * as uuid from 'uuid';
 import { ConfigService } from '@nestjs/config';
 import { MailService } from '../mail/mail.service';
 import { TokenPayload } from '../tokens/interfaces/token-payload.interface';
-import { USERS_SERVICE } from '../users/users-service.interface';
+import { USER_SERVICE, UserService } from '../users/user-service.interface';
 import { UserAndToken } from '../users/types/user-and-token.type';
 
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(USERS_SERVICE) private usersService: UsersService,
+    @Inject(USER_SERVICE) private userService: UserService,
     private tokensService: TokensService,
     private configService: ConfigService,
     private jwtService: JwtService,
@@ -38,7 +37,7 @@ export class AuthService {
   ): Promise<UserAndToken> {
     await this.setRefreshToken(userData, response);
     const accessToken = this.getAccessToken(userData);
-    const user = await this.usersService.getSerializedUserById(userData.id);
+    const user = await this.userService.getSerializedUserById(userData.id);
     return {
       user,
       accessToken,
@@ -60,7 +59,7 @@ export class AuthService {
     response: Response,
   ): Promise<UserAndToken> {
     const tokenPayload = await this.getTokenPayloadFromRefresh(refreshToken);
-    const user = await this.usersService.getByEmail(tokenPayload.email);
+    const user = await this.userService.getByEmail(tokenPayload.email);
     return await this.login(user, response);
   }
 
@@ -84,7 +83,7 @@ export class AuthService {
 
   public async googleLogin(req: Request, res: Response) {
     this.checkUserInReq(req);
-    const candidate = await this.usersService.getByEmail(
+    const candidate = await this.userService.getByEmail(
       req.user['email'] || '',
     );
     if (candidate) {
@@ -109,7 +108,7 @@ export class AuthService {
   }
 
   private async checkUserIsNotExist(email: string) {
-    const candidate = await this.usersService.getByEmail(email);
+    const candidate = await this.userService.getByEmail(email);
     if (candidate) {
       throw new BadRequestException({
         message: `Пользователь с почтовым адресом ${email} уже существует`,
@@ -127,7 +126,7 @@ export class AuthService {
 
   private async createUser(registerUserDto: RegisterUserDto): Promise<User> {
     const activationLink = uuid.v4();
-    return await this.usersService.create({
+    return await this.userService.create({
       email: registerUserDto.email,
       firstName: registerUserDto.firstName,
       lastName: registerUserDto.lastName,

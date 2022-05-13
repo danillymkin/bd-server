@@ -1,7 +1,7 @@
 import { RegisterUserDto } from '../../../auth/dto/register-user.dto';
 import { User } from '../../entities/user.entity';
-import { Role } from '../../../auth/enums/role.enum';
 import { getRepositoryToken } from '@nestjs/typeorm';
+import { RoleName } from '../../../role/enum/role-name.enum';
 
 export const USER_REPOSITORY_TOKEN = getRepositoryToken(User);
 
@@ -23,7 +23,16 @@ export const mockUser: User = {
   patronymic: '',
   password: 'hash123',
   activationLink: '7dnf83nfd8',
-  roles: [Role.USER],
+  roles: [
+    {
+      id: 1,
+      name: RoleName.USER,
+    },
+    {
+      id: 2,
+      name: RoleName.ADMIN,
+    },
+  ],
   account: '',
   address: '',
   fax: '',

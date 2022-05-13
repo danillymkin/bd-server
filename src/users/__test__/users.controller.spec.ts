@@ -1,21 +1,21 @@
-import { UsersController } from '../users.controller';
+import { UserController } from '../user.controller';
 import { Test, TestingModule } from '@nestjs/testing';
 import { ConfigModule } from '@nestjs/config';
 import { mockUser, USER_REPOSITORY_TOKEN } from './__mocks__';
-import { UsersService } from '../users.service';
-import { USERS_SERVICE } from '../users-service.interface';
+import { UserServiceImpl } from '../user.service';
+import { USER_SERVICE } from '../user-service.interface';
 
 describe('UsersController', () => {
-  let controller: UsersController;
-  let service: UsersService;
+  let controller: UserController;
+  let service: UserServiceImpl;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [ConfigModule],
-      controllers: [UsersController],
+      controllers: [UserController],
       providers: [
         {
-          provide: USERS_SERVICE,
+          provide: USER_SERVICE,
           useValue: {
             getById: jest.fn(() => mockUser),
             activate: jest.fn(),
@@ -28,8 +28,8 @@ describe('UsersController', () => {
       ],
     }).compile();
 
-    controller = module.get<UsersController>(UsersController);
-    service = module.get<UsersService>('USERS_SERVICE');
+    controller = module.get<UserController>(UserController);
+    service = module.get<UserServiceImpl>('USERS_SERVICE');
   });
 
   it('should be defined', () => {

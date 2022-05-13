@@ -2,14 +2,13 @@ import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { ConfigService } from '@nestjs/config';
-import { UsersService } from '../../users/users.service';
-import { USERS_SERVICE } from '../../users/users-service.interface';
+import { USER_SERVICE, UserService } from '../../users/user-service.interface';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor(
     private configService: ConfigService,
-    @Inject(USERS_SERVICE) private usersService: UsersService,
+    @Inject(USER_SERVICE) private userService: UserService,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -19,7 +18,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: any) {
-    const user = await this.usersService.getById(payload.id);
+    const user = await this.userService.getById(payload.id);
     if (!user) {
       throw new UnauthorizedException({ message: 'Некорректный токен' });
     }

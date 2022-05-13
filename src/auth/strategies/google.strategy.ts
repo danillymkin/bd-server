@@ -1,9 +1,8 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Profile, Strategy, VerifyCallback } from 'passport-google-oauth20';
 import { ConfigService } from '@nestjs/config';
-import { UsersService } from '../../users/users.service';
 import { Inject, Injectable } from '@nestjs/common';
-import { USERS_SERVICE } from '../../users/users-service.interface';
+import { USER_SERVICE, UserService } from '../../users/user-service.interface';
 import { RoleService } from '../../role/role.service';
 import { RoleName } from '../../role/enum/role-name.enum';
 
@@ -12,7 +11,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   constructor(
     private configService: ConfigService,
     private roleService: RoleService,
-    @Inject(USERS_SERVICE) private usersService: UsersService,
+    @Inject(USER_SERVICE) private userService: UserService,
   ) {
     super({
       clientID: configService.get<string>('OAUTH_GOOGLE_ID'),

@@ -9,7 +9,7 @@ import { NotesModule } from './notes/notes.module';
 import { ImagesModule } from './images/images.module';
 import { FilesModule } from './files/files.module';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './users/user.module';
 import { TokensModule } from './tokens/tokens.module';
 import { MailModule } from './mail/mail.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
@@ -90,7 +90,7 @@ import { RoleModule } from './role/role.module';
     ImagesModule,
     FilesModule,
     AuthModule,
-    UsersModule,
+    UserModule,
     TokensModule,
     MailModule,
     ConsignmentModule,

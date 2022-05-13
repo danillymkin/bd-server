@@ -7,15 +7,16 @@ import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import { instanceToPlain } from 'class-transformer';
+import { UserService } from './user-service.interface';
 
 @Injectable()
-export class UsersService {
+export class UserServiceImpl implements UserService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
     private configService: ConfigService,
   ) {}
 
-  public async getById(id: number) {
+  public async getById(id: number): Promise<User> {
     return await this.usersRepository.findOne(id);
   }
 
@@ -62,7 +63,7 @@ export class UsersService {
     return await bcrypt.hash(password, hashSalt);
   }
 
-  private async activateUserByLink(activationLink: string) {
+  private async activateUserByLink(activationLink: string): Promise<void> {
     try {
       const user = await this.getByActivationLink(activationLink);
       await this.usersRepository.save({ ...user, isActivated: true });
@@ -73,7 +74,7 @@ export class UsersService {
     }
   }
 
-  private redirectToClient(response: Response) {
+  private redirectToClient(response: Response): void {
     const CLIENT_URL = this.configService.get<string>('CLIENT_URL');
     return response.redirect(CLIENT_URL);
   }
