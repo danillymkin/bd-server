@@ -9,7 +9,7 @@ import { TokenServiceImpl } from '../token.service';
 import { TOKEN_REPOSITORY_TOKEN } from './__mocks__/constants';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { mockUser } from '../../user/__test__/__mocks__/user.mock';
+import { mockUser } from '../../user/__tests__/__mocks__/user.mock';
 import { mockToken } from './__mocks__/token.mock';
 import { mockTokenPayload } from './__mocks__/token-payload.mock';
 import anything = jasmine.anything;

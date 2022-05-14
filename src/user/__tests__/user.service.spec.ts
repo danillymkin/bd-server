@@ -12,7 +12,7 @@ import {
 } from '../interfaces/user-service.interface';
 import { mockRegisterUserDto } from './__mocks__/register-user-dto.mock';
 import { USER_REPOSITORY_TOKEN } from './__mocks__/constants';
-import { mockRole } from '../../role/__test__/__mocks__/role.mock';
+import { mockRole } from '../../role/__tests__/__mocks__/role.mock';
 import { ROLE_SERVICE } from '../../role/interfaces/role-service.interface';
 
 describe('UserService', () => {
