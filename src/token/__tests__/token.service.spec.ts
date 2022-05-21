@@ -10,7 +10,7 @@ import { TOKEN_REPOSITORY_TOKEN } from './__mocks__/constants';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { mockUser } from '../../user/__tests__/__mocks__/user.mock';
-import { mockToken } from './__mocks__/token.mock';
+import { mockTokenString } from './__mocks__/token.mock';
 import { mockTokenPayload } from './__mocks__/token-payload.mock';
 import anything = jasmine.anything;
 import { UnauthorizedException } from '@nestjs/common';
@@ -53,7 +53,9 @@ describe('TokenService', () => {
 
   describe('generate', () => {
     it('should call jwtService.sign with correct params', async () => {
-      jest.spyOn(jwtService, 'sign').mockImplementationOnce(() => mockToken);
+      jest
+        .spyOn(jwtService, 'sign')
+        .mockImplementationOnce(() => mockTokenString);
       jest.spyOn(configService, 'get').mockImplementationOnce(() => '30s');
 
       await service.generate(mockUser);
@@ -67,14 +69,14 @@ describe('TokenService', () => {
 
   describe('save', () => {
     it('should call tokenRepository.save', async () => {
-      await service.save(mockUser.id, mockToken);
+      await service.save(mockUser.id, mockTokenString);
 
       expect(repository.save).toBeCalledTimes(1);
     });
 
     it('should call tokenRepository.create if token is not found', async () => {
       jest.spyOn(repository, 'findOne').mockImplementationOnce(() => undefined);
-      await service.save(mockUser.id, mockToken);
+      await service.save(mockUser.id, mockTokenString);
 
       expect(repository.create).toBeCalledTimes(1);
     });
@@ -82,20 +84,20 @@ describe('TokenService', () => {
 
   describe('remove', () => {
     it('should call tokenRepository.delete with correct params', async () => {
-      await service.remove(mockToken);
+      await service.remove(mockTokenString);
 
       expect(repository.delete).toHaveBeenCalledWith({
-        refreshToken: mockToken,
+        refreshToken: mockTokenString,
       });
     });
   });
 
   describe('findOne', () => {
     it('should call tokenRepository.delete with correct params', async () => {
-      await service.findOne(mockToken);
+      await service.findOne(mockTokenString);
 
       expect(repository.findOne).toHaveBeenCalledWith({
-        refreshToken: mockToken,
+        refreshToken: mockTokenString,
       });
     });
   });
@@ -117,9 +119,12 @@ describe('TokenService', () => {
         .spyOn(jwtService, 'verify')
         .mockImplementationOnce(() => mockTokenPayload);
 
-      service.validate(mockToken);
+      service.validate(mockTokenString);
 
-      expect(jwtService.verify).toHaveBeenCalledWith(mockToken, anything());
+      expect(jwtService.verify).toHaveBeenCalledWith(
+        mockTokenString,
+        anything(),
+      );
     });
 
     it('should return payload', () => {
@@ -127,13 +132,15 @@ describe('TokenService', () => {
         .spyOn(jwtService, 'verify')
         .mockImplementationOnce(() => mockTokenPayload);
 
-      service.validate(mockToken);
+      service.validate(mockTokenString);
 
       expect(jwtService.verify).toReturnWith(mockTokenPayload);
     });
 
     it('should throw UnauthorizedException if token is invalid', () => {
-      expect(() => service.validate(mockToken)).toThrow(UnauthorizedException);
+      expect(() => service.validate(mockTokenString)).toThrow(
+        UnauthorizedException,
+      );
     });
   });
 });
